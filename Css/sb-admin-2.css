@@ -1828,7 +1828,7 @@ pre code {
 .form-control {
   display: block;
   width: 100%;
-  height: calc(1.5em + 0.75rem + 2px);
+  height: calc(1.5em + 0.75rem + 15px);
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   font-weight: 400;
@@ -7758,6 +7758,7 @@ button.bg-dark:focus {
 .mb-4,
 .my-4 {
   margin-bottom: 1.5rem !important;
+  text-align: center;
 }
 
 .ml-4,
@@ -11288,7 +11289,7 @@ body.sidebar-toggled footer.sticky-footer {
   color: #333;
 }
 .formulario {
-  width: 300px;
+  width: 60%;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;

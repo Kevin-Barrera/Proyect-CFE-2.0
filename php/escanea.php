@@ -1,5 +1,5 @@
 <?php
-$directorio = 'Archivos'; // Ruta a la carpeta donde se almacenan los archivos
+$directorio = "../Archivos/"; // Ruta a la carpeta donde se almacenan los archivos
 $archivos = scandir($directorio);
 $archivos_excel = array();
 

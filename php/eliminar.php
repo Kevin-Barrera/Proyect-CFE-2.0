@@ -1,7 +1,7 @@
 <?php
 if (isset($_GET['archivo'])) {
     $archivo = $_GET['archivo'];
-    $directorio = '../php/Archivos'; // Ruta a la carpeta donde se almacenan los archivos
+    $directorio = '../Archivos'; // Ruta a la carpeta donde se almacenan los archivos
 
     // Asegúrate de que el archivo existe antes de intentar eliminarlo
     if (file_exists("$directorio/$archivo")) {

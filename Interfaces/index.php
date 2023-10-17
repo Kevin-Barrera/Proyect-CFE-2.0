@@ -18,7 +18,7 @@
 
 
 <?php
-$directorio = '../php/Archivos'; // Ruta a la carpeta donde se almacenan los archivos
+$directorio = '../Archivos'; // Ruta a la carpeta donde se almacenan los archivos
 $archivos = scandir($directorio);
 $archivos_excel = array();
 
@@ -32,7 +32,7 @@ foreach ($archivos as $archivo) {
 <div class="container my-5">
     <h1>Archivos Excel Almacenados</h1>
     <div class="table-responsive">
-        <table class="table table-striped table-bordered">
+        <table id="tabla" class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
                     <th>Nombre del Archivo</th>
@@ -54,5 +54,21 @@ foreach ($archivos as $archivo) {
     </div>
 </div>
 
+<!-- script para exportar a excel -->
+<script>
+    const $btnExportar = document.querySelector("#btnExportar"),
+        $tabla = document.querySelector("#tabla");
+
+    $btnExportar.addEventListener("click", function() {
+        let tableExport = new TableExport($tabla, {
+            exportButtons: false, // No queremos botones
+            filename: "Reporte de prueba", //Nombre del archivo de Excel
+            sheetname: "Reporte de prueba", //Título de la hoja
+        });
+        let datos = tableExport.getExportData();
+        let preferenciasDocumento = datos.tabla.xlsx;
+        tableExport.export2file(preferenciasDocumento.data, preferenciasDocumento.mimeType, preferenciasDocumento.filename, preferenciasDocumento.fileExtension, preferenciasDocumento.merges, preferenciasDocumento.RTL, preferenciasDocumento.sheetname);
+    });
+</script>
 
 <?php require_once './footer.php'; ?>
