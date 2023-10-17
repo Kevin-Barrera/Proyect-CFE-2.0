@@ -18,9 +18,12 @@ if (isset($_FILES["archivo"])) {
     $ruta_destino = $directorio_destino . $archivo["name"];
     
     if (move_uploaded_file($archivo["tmp_name"], $ruta_destino)) {
-        echo "El archivo se ha subido correctamente.";
+        // Redirige de vuelta a la página anterior
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit; // Asegura que el script termine después de la redirección
     } else {
         echo "Error al subir el archivo.";
     }
 }
 ?>
+

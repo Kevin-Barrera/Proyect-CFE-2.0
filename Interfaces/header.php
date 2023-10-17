@@ -18,6 +18,8 @@
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-i3ziGFCpwpQf4WIg6AqO1HbOkDMM8fdM12lpFckNXy6lW3CzIYbPm7G2Y3KdhZzI" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 
 
     <!-- Custom styles for this template-->

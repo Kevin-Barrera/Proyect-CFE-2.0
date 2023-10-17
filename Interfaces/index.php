@@ -1,57 +1,58 @@
+<?php require_once './header.php'; ?>
 
-<?php 
-require_once './header.php';
-?>
-
-<div class="formulario-container">
-        <h1>Subir archivo Excel</h1>
-        <form class="formulario" action="../php/procesar.php" method="post" enctype="multipart/form-data">
-            <label for="archivo">Selecciona un archivo Excel:</label>
-            <input type="file" name="archivo" id="archivo" accept=".xlsx">
-            <input type="submit" value="Subir archivo">
-        </form>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4">Subir archivo Excel</h1>
+            <form class="formulario" action="../php/procesar.php" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="archivo" class="form-label">Selecciona un archivo Excel:</label>
+                    <input type="file" class="form-control" id="archivo" name="archivo" accept=".xlsx">
+                </div>
+                <button type="submit" class="btn btn-primary">Subir archivo</button>
+            </form>
+        </div>
     </div>
+</div>
 
-    <?php 
-require_once './footer.php';
+
+
+<?php
+$directorio = '../php/Archivos'; // Ruta a la carpeta donde se almacenan los archivos
+$archivos = scandir($directorio);
+$archivos_excel = array();
+
+foreach ($archivos as $archivo) {
+    if (pathinfo($archivo, PATHINFO_EXTENSION) === 'xlsx') {
+        $archivos_excel[] = $archivo;
+    }
+}
 ?>
 
-<style>
-    .formulario-container {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        .formulario-container h1 {
-            color: #333;
-        }
-        .formulario {
-            width: 300px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .formulario label {
-            display: block;
-            margin-bottom: 10px;
-        }
-        .formulario input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .formulario input[type="submit"] {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-        .formulario input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-</style>
+<div class="container my-5">
+    <h1>Archivos Excel Almacenados</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nombre del Archivo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($archivos_excel as $archivo) { ?>
+                    <tr>
+                        <td><a href="Archivos/<?php echo $archivo; ?>"><?php echo $archivo; ?></a></td>
+                        <td>
+                            <a href="../php/eliminar.php?archivo=<?php echo $archivo; ?>" class="btn btn-danger">Eliminar</a>
+                            <a href="convertir.php?archivo=<?php echo $archivo; ?>" class="btn btn-primary">Convertir</a>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<?php require_once './footer.php'; ?>
