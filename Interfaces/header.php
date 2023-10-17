@@ -24,6 +24,7 @@
 
     <!-- Custom styles for this template-->
     <link href="../Css/sb-admin-2.css" rel="stylesheet">
+    <link rel="stylesheet" href="../Css/axeljoto.css">
 
 </head>
 
@@ -58,12 +59,12 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
+                Interfaces
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="proyectos.php">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-folder-fill" viewBox="0 0 16 16">
                         <path
@@ -75,7 +76,7 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="reportes.php">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
                         <path
