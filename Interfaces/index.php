@@ -15,5 +15,9 @@
     </div>
 </div>
 
+<?php 
+    include './agregar.php';
+    include './editar.php';
+    require_once './footer.php'; 
+?>
 
-<?php require_once './footer.php'; ?>
