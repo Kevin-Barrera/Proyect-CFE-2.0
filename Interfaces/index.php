@@ -1,4 +1,19 @@
 <?php require_once './header.php'; ?>
+<?php
+if (isset($_GET['success']) && $_GET['success'] == "true") {
+    echo "<div id='successAlert' class='alert alert-success'>Los datos se han insertado con éxito.</div>";
+}
+?>
+<script>
+    // Espera 5 segundos y luego oculta la alerta
+    setTimeout(function () {
+        var successAlert = document.getElementById('successAlert');
+        if (successAlert) {
+            successAlert.style.display = 'none';
+        }
+    }, 5000); // 3000 milisegundos (3 segundos)
+</script>
+
 
 <div class="container my-5">
     <div class="row justify-content-center">

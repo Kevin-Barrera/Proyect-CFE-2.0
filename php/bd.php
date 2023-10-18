@@ -15,6 +15,7 @@ if (isset($_POST['subirArchivo'])) {
     // Mover el archivo a la carpeta de destino
     if (move_uploaded_file($archivoTemporal, $carpetaDestino . $archivoRuta)) {
         echo "<script>alert('El archivo se ha guardado correctamente.');</script>";
+        header("Location: ../Interfaces/index.php?success=true");
     } else {
         echo "Error al mover el archivo a la carpeta de destino.";
     }
