@@ -1,57 +1,56 @@
 <?php
 
-    function validar($texto) {
-        $texto = trim($texto);
-        $texto = stripslashes($texto);
-        $texto = htmlspecialchars($texto);
-        return $texto;
-    }
+if (isset($_POST['subirArchivo'])) {
+    $nombreProyecto = $_POST['nombre'];
+    $descripcionProyecto = $_POST['descripcion'];
+    $archivoRuta = $_FILES['archivo']['name'];
+    $archivoTemporal = $_FILES['archivo']['tmp_name'];
 
-    function conectar() {
-        DEFINE('SERVIDOR', 'localhost');
-        DEFINE('USUARIO', 'root');
-        DEFINE('PASSWORD', '');
-        DEFINE('BD', 'cfe');
+    // Llamada a la función insertarProyecto con los datos capturados
+    insertarProyecto($nombreProyecto, $descripcionProyecto, $archivoRuta);
 
-        $resultado = mysqli_connect(SERVIDOR, USUARIO, PASSWORD, BD);
+    // Ruta de la carpeta donde se guardarán los archivos subidos
+    $carpetaDestino = '../Archivos/';
 
-        return $resultado;
-    }
-
-    if(empty($_POST)){
-        //redireccionar('Prohibido', 'index.php');
-        return;
-    }
-
-    $postre = validar($_POST['postre']);
-    $descripcion = validar($_POST['descripcion']);
-    $tipo = validar($_POST['tipo']);
-    $precio = validar($_POST['precio']);
-
-    if($postre == '' || $descripcion == '' || $tipo == '' || $precio == '') {
-        //redireccionar('Información no válida.', 'agregar.php');
-        return;
-    }
-
-    $conexion = conectar();
-
-    if(!$conexion) {
-        //redireccionar('Error en la conexión.', 'agregar.php');
-        return;
-    }
-
-    //$imagen = subir_imagen($_FILES['imagen']);
-
-    $sql = "insert into postre(postre, descripcion, precio, tipo, imagen) values ('$postre','$descripcion','$precio','$tipo','$imagen')";
-
-    $resultado = mysqli_query($conexion, $sql);
-
-    if($resultado) {
-        //redireccionar('Datos guardados exitosamente.', 'agregar.php');
+    // Mover el archivo a la carpeta de destino
+    if (move_uploaded_file($archivoTemporal, $carpetaDestino . $archivoRuta)) {
+        echo "<script>alert('El archivo se ha guardado correctamente.');</script>";
     } else {
-        //redireccionar('Error: ' . mysql_error($conexion), 'agregar.php');
+        echo "Error al mover el archivo a la carpeta de destino.";
+    }
+}
+
+// Función para insertar un proyecto en la base de datos
+function insertarProyecto($nombreProyecto, $descripcionProyecto, $archivoRuta) {
+    $servername = "localhost"; // Nombre del servidor MySQL
+    $username = "root";     // Nombre de usuario de la base de datos
+    $password = "";        // Contraseña de la base de datos
+    $database = "cfe"; // Nombre de la base de datos
+
+    // Crear una conexión
+    $conexion = new mysqli($servername, $username, $password, $database);
+
+    // Verificar la conexión
+    if ($conexion->connect_error) {
+        die("Conexión fallida: " . $conexion->connect_error);
     }
 
-    mysqli_close($conexion);
+    // Preparar la consulta SQL para la inserción
+    $sql = "INSERT INTO proyecto (nomProyecto, descProyecto, rutaArc1, rutaArc2, rutaArc3) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $conexion->prepare($sql);
+    $rutaArc2 = "";
+    $rutaArc3 = "";
+    $stmt->bind_param("sssss", $nombreProyecto, $descripcionProyecto, $archivoRuta, $rutaArc2, $rutaArc3);
 
+    // Ejecutar la consulta
+    if ($stmt->execute()) {
+        echo "<script>alert('Datos insertados con éxito.');</script>";
+    } else {
+        echo "Error al insertar datos: " . $stmt->error;
+    }
+
+    // Cerrar la conexión
+    $stmt->close();
+    $conexion->close();
+}
 ?>

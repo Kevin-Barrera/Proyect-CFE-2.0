@@ -27,16 +27,6 @@
 
 </head>
 
-<?php 
-    include '../php/bd.php';
-    $conexion = conectar();
-
-    if (!$conexion) {
-        echo "Error en la conexión con la BD";
-        return;
-    }
-?>
-
 <body id="page-top">
 
     <!-- Page Wrapper -->

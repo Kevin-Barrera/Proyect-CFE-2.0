@@ -1,5 +1,6 @@
 <?php
-if (isset($_FILES["archivo"])) {
+
+function importarArchivo(){
     $archivo = $_FILES["archivo"];
 
     // Verifica si el archivo es una hoja de cálculo Excel
@@ -25,5 +26,9 @@ if (isset($_FILES["archivo"])) {
     } else {
         echo "Error al subir el archivo.";
     }
+}
+
+if (isset($_FILES["archivo"])) {
+    importarArchivo();
 }
 ?>
