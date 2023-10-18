@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 
@@ -20,11 +19,12 @@
         integrity="sha384-i3ziGFCpwpQf4WIg6AqO1HbOkDMM8fdM12lpFckNXy6lW3CzIYbPm7G2Y3KdhZzI" crossorigin="anonymous">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-
-
     <!-- Custom styles for this template-->
     <link href="../Css/sb-admin-2.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" />
     <link rel="stylesheet" href="../Css/axeljoto.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
+    <script src="../Js/axeljoto.js" defer></script>
 
 </head>
 
