@@ -21,8 +21,9 @@ $resultado = $conexion->query($sql);
 
 // Comprobar si se encontraron resultados
 if ($resultado->num_rows > 0) {
-    echo "<table border='1'>";
-    echo "<tr><th>ID</th><th>Nombre del Proyecto</th><th>Descripción</th><th>Ruta del Archivo</th></tr>";
+    echo "<div class='container my-5'><div class='table-responsive'>"; 
+    echo "<table border='1' class='table table-striped table-bordered'>";
+    echo "<thead class='thead-dark'><tr><th>ID</th><th>Nombre del Proyecto</th><th>Descripción</th><th>Ruta del Archivo</th></tr></thead>";
 
     while ($fila = $resultado->fetch_assoc()) {
         echo "<tr>";
@@ -33,7 +34,7 @@ if ($resultado->num_rows > 0) {
         echo "</tr>";
     }
 
-    echo "</table>";
+    echo "</table></div></div>";
 } else {
     echo "No se encontraron proyectos en la base de datos.";
 }
