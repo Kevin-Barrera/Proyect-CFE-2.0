@@ -25,4 +25,3 @@ const hot = new Handsontable(container, {
   height: 'auto',
   licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
 });
-

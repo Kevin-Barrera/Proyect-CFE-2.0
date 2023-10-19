@@ -37,4 +37,3 @@ if (isset($_GET['success']) && $_GET['success'] == "true") {
     include './editar.php';
     require_once './footer.php'; 
 ?>
-
