@@ -1,0 +1,12 @@
+.hoja {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+iframe {
+    width: 100%;
+    height: 600px; /* Ajusta la altura según tus necesidades */
+    border: none;
+}

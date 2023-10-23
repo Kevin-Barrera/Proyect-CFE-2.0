@@ -1,5 +1,5 @@
 <?php require_once './header.php'; ?>
-<script src="../Js/axeljoto.js" defer></script>
+<script src="../Js/conexion.js" defer></script>
 
 <?php
 // Conexión a la base de datos (reemplaza con tus propios datos)

@@ -19,7 +19,7 @@
     <!-- Custom styles for this template-->
     <link href="../Css/sb-admin-2.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" />
-    <link rel="stylesheet" href="../Css/axeljoto.css">
+    <link rel="stylesheet" href="../Css/estilos.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous"> -->
     <script src="../Js/jquery.min.js"></script>
