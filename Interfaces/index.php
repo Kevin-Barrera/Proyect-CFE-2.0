@@ -14,7 +14,6 @@ if (isset($_GET['success']) && $_GET['success'] == "true") {
     }, 5000); // 3000 milisegundos (3 segundos)
 </script>
 
-
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-12">

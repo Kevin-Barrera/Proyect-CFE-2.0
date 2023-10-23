@@ -14,7 +14,7 @@
                             <div class="mb-3">
                                 <label for="proyecto">Seleccionar Proyecto:</label>
                                 <select name="proyecto" id="proyecto" class="form-control">
-                                    <option value="" disabled selected>Seleccione uno:</option>
+                                <option value="" disabled selected>Seleccione uno:</option>
                                     <?php
                                     $servername = "localhost"; // Nombre del servidor MySQL
                                     $username = "root";     // Nombre de usuario de la base de datos
@@ -58,15 +58,18 @@
 </div>
 
 <script>
-    function editarProyecto() {
+function editarProyecto() {
         var proyectoSelect = document.getElementById("proyecto");
         var proyectoSeleccionado = proyectoSelect.value;
 
         if (!proyectoSeleccionado) {
             alert("Por favor, seleccione un proyecto válido antes de editar.");
         } else {
-            // Redirige al usuario a la página de edición con el proyecto seleccionado
-            window.location.href = '../php/editar_proyecto.php?proyecto=' + proyectoSeleccionado;
+            // Obtiene el índice seleccionado en el combo box
+            var selectedIndex = proyectoSelect.selectedIndex;
+            
+            // Redirige al usuario a la página de edición con el índice como parámetro de consulta
+            window.location.href = '../Interfaces/editar_proyecto.php?id=' + selectedIndex;
         }
     }
 </script>
