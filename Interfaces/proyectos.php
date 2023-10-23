@@ -23,7 +23,7 @@ $resultado = $conexion->query($sql);
 if ($resultado->num_rows > 0) {
     echo "<div class='container my-5'><div class='table-responsive'>"; 
     echo "<table border='1' class='table table-striped table-bordered'>";
-    echo "<thead class='thead-dark'><tr><th>ID</th><th>Nombre del Proyecto</th><th>Descripción</th><th>Ruta del Archivo</th></tr></thead>";
+    echo "<thead class='thead-dark'><tr><th>ID</th><th>Nombre del Proyecto</th><th>Descripción</th><th>Nombre del Archivo</th></tr></thead>";
 
     while ($fila = $resultado->fetch_assoc()) {
         echo "<tr>";
