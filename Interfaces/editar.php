@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="../php/procesar.php" method="post" enctype="multipart/form-data" onsubmit="return validarSeleccion()">
+                <form action="../php/procesar.php" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="mb-3">
@@ -58,18 +58,6 @@
 </div>
 
 <script>
-    function validarSeleccion() {
-        var proyectoSelect = document.getElementById("proyecto");
-        var selectedValue = proyectoSelect.options[proyectoSelect.selectedIndex].value;
-
-        if (selectedValue === "") {
-            alert("Por favor, seleccione un proyecto válido antes de editar.");
-            return false; // Detiene el envío del formulario
-        }
-
-        return true; // Permite el envío del formulario si se ha seleccionado un proyecto válido
-    }
-
     function editarProyecto() {
         var proyectoSelect = document.getElementById("proyecto");
         var proyectoSeleccionado = proyectoSelect.value;
