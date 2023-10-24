@@ -1,12 +1,4 @@
-
-<style>
-    body {
-        background-color: #f8f9fc;
-    }
-</style>
-
-<?php require_once './header.php'; ?>
-<?php
+<?php require_once './header.php';
 include "../php/bd.php";
 
 $id_proyecto = $_GET['id'];
@@ -45,7 +37,8 @@ if (isset($_POST['guardarCambios'])) {
     guardarCambiosProyecto($id_proyecto, $nombreProyecto, $descripcionProyecto);
 
     // Redirige a la página de éxito o a donde desees después de guardar los cambios.
-    header("Location: ../Interfaces/index.php?success=true");
+    echo "<script>alert('Los datos se han actualizado correctamente.');</script>";
+    //header("Location: index.php?success=true");
 }
 
 // Obtén los datos del proyecto
@@ -57,7 +50,7 @@ $datos_proyecto = obtenerDatosDelProyecto($id_proyecto);
         <div class="col-md-12">
             <h1 class="mb-4">Editar archivo</h1>
             <!-- Formulario para editar el proyecto con los datos obtenidos -->
-            <form action="../Interfaces/editar_proyecto.php?id=<?php echo $id_proyecto; ?>" method="post" enctype="multipart/form-data">
+            <form action="editar_proyecto.php?id=<?php echo $id_proyecto; ?>" method="post" enctype="multipart/form-data">
             <!-- Campos para mostrar y editar los datos del proyecto -->
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre del Proyecto:</label>
@@ -83,7 +76,7 @@ $datos_proyecto = obtenerDatosDelProyecto($id_proyecto);
 
 <script>
 function cancelar() {
-    window.location.href = "../Interfaces/index.php";
+    window.location.href = "./index.php";
 }
 </script>
 

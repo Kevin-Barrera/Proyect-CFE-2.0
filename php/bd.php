@@ -1,6 +1,6 @@
 <?php
 
-function obtenerDatosDelProyecto($id_proyecto) {
+function conectar(){
     $servername = "localhost"; // Nombre del servidor MySQL
     $username = "root";     // Nombre de usuario de la base de datos
     $password = "";        // Contraseña de la base de datos
@@ -13,6 +13,11 @@ function obtenerDatosDelProyecto($id_proyecto) {
     if ($conexion->connect_error) {
         die("Conexión fallida: " . $conexion->connect_error);
     }
+    return $conexion;
+}
+
+function obtenerDatosDelProyecto($id_proyecto) {
+    $conexion = conectar();
 
     // Preparar y ejecutar una consulta SQL para obtener los datos del proyecto
     $sql = "SELECT idProyecto, nomProyecto, descProyecto, rutaArc1, rutaArc2, rutaArc3 FROM proyecto WHERE idProyecto = ?";
@@ -32,18 +37,7 @@ function obtenerDatosDelProyecto($id_proyecto) {
 
 // Función para actualizar el nombre del archivo asociado a un proyecto
 function actualizarNombreArchivoProyecto($id_proyecto, $nuevoNombreArchivo) {
-    $servername = "localhost"; // Nombre del servidor MySQL
-    $username = "root";     // Nombre de usuario de la base de datos
-    $password = "";        // Contraseña de la base de datos
-    $database = "cfe"; // Nombre de la base de datos
-
-    // Crear una conexión
-    $conexion = new mysqli($servername, $username, $password, $database);
-
-    // Verificar la conexión
-    if ($conexion->connect_error) {
-        die("Conexión fallida: " . $conexion->connect_error);
-    }
+    $conexion = conectar();
 
     // Preparar la consulta SQL para actualizar el nombre del archivo
     $sql = "UPDATE proyecto SET rutaArc1 = ? WHERE idProyecto = ?";
@@ -63,18 +57,7 @@ function actualizarNombreArchivoProyecto($id_proyecto, $nuevoNombreArchivo) {
 }
 
 function guardarCambiosProyecto($id_proyecto, $nombreProyecto, $descripcionProyecto) {
-    $servername = "localhost"; // Nombre del servidor MySQL
-    $username = "root";     // Nombre de usuario de la base de datos
-    $password = "";        // Contraseña de la base de datos
-    $database = "cfe"; // Nombre de la base de datos
-
-    // Crear una conexión
-    $conexion = new mysqli($servername, $username, $password, $database);
-
-    // Verificar la conexión
-    if ($conexion->connect_error) {
-        die("Conexión fallida: " . $conexion->connect_error);
-    }
+    $conexion = conectar();
 
     // Preparar la consulta SQL para actualizar los datos del proyecto
     $sql = "UPDATE proyecto SET nomProyecto = ?, descProyecto = ? WHERE idProyecto = ?";
@@ -116,18 +99,7 @@ if (isset($_POST['subirArchivo'])) {
 
 // Función para insertar un proyecto en la base de datos
 function insertarProyecto($nombreProyecto, $descripcionProyecto, $archivoRuta) {
-    $servername = "localhost"; // Nombre del servidor MySQL
-    $username = "root";     // Nombre de usuario de la base de datos
-    $password = "";        // Contraseña de la base de datos
-    $database = "cfe"; // Nombre de la base de datos
-
-    // Crear una conexión
-    $conexion = new mysqli($servername, $username, $password, $database);
-
-    // Verificar la conexión
-    if ($conexion->connect_error) {
-        die("Conexión fallida: " . $conexion->connect_error);
-    }
+    $conexion = conectar();
 
     // Preparar la consulta SQL para la inserción
     $sql = "INSERT INTO proyecto (nomProyecto, descProyecto, rutaArc1, rutaArc2, rutaArc3) VALUES (?, ?, ?, ?, ?)";
