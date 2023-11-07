@@ -23,7 +23,7 @@ $resultado = $conexion->query($sql);
 if ($resultado->num_rows > 0) {
     echo "<div class='container my-5'><div class='table-responsive'>"; 
     echo "<table border='1' class='table table-striped table-bordered'>";
-    echo "<thead class='thead-dark'><tr><th>ID</th><th>Nombre del Proyecto</th><th>Descripción</th><th>Nombre del Archivo</th></tr></thead>";
+    echo "<thead class='thead-dark'><tr><th>ID</th><th>Nombre del Proyecto</th><th>Descripción</th><th>Nombre del Archivo 1</th><th>Nombre del Archivo 2</th><th>Nombre del Archivo 3</th></tr></thead>";
 
     while ($fila = $resultado->fetch_assoc()) {
         echo "<tr>";
@@ -31,6 +31,8 @@ if ($resultado->num_rows > 0) {
         echo "<td>" . $fila["nomProyecto"] . "</td>";
         echo "<td>" . $fila["descProyecto"] . "</td>";
         echo "<td>" . $fila["rutaArc1"] . "</td>";
+        echo "<td>" . $fila["rutaArc2"] . "</td>";
+        echo "<td>" . $fila["rutaArc3"] . "</td>";
         echo "</tr>";
     }
 

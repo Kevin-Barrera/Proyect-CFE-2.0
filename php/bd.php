@@ -76,20 +76,21 @@ function guardarCambiosProyecto($id_proyecto, $nombreProyecto, $descripcionProye
     $conexion->close();
 }
 
-if (isset($_POST['subirArchivo'])) {
+if (isset($_POST['crearProyecto'])) {
     $nombreProyecto = $_POST['nombre'];
     $descripcionProyecto = $_POST['descripcion'];
-    $archivoRuta = $_FILES['archivo']['name'];
-    $archivoTemporal = $_FILES['archivo']['tmp_name'];
+    $nombreArchivo1 = $_FILES['archivo1']['name'];
+    $archivoTemporal1 = $_FILES['archivo1']['tmp_name'];
+    $nombreArchivo2 = $_FILES['archivo2']['name'];
+    $archivoTemporal2 = $_FILES['archivo2']['tmp_name'];
+    $nombreArchivo3 = $_FILES['archivo3']['name'];
+    $archivoTemporal3 = $_FILES['archivo3']['tmp_name'];
 
     // Llamada a la función insertarProyecto con los datos capturados
-    insertarProyecto($nombreProyecto, $descripcionProyecto, $archivoRuta);
-
-    // Ruta de la carpeta donde se guardarán los archivos subidos
-    $carpetaDestino = '../Archivos/';
+    $respuesta = insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1, $archivoTemporal1, $nombreArchivo2, $archivoTemporal2, $nombreArchivo3, $archivoTemporal3);    
 
     // Mover el archivo a la carpeta de destino
-    if (move_uploaded_file($archivoTemporal, $carpetaDestino . $archivoRuta)) {
+    if ($respuesta) {
         echo "<script>alert('El archivo se ha guardado correctamente.');</script>";
         header("Location: ../Interfaces/index.php?success=true");
     } else {
@@ -98,15 +99,20 @@ if (isset($_POST['subirArchivo'])) {
 }
 
 // Función para insertar un proyecto en la base de datos
-function insertarProyecto($nombreProyecto, $descripcionProyecto, $archivoRuta) {
+function insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1, $archivoTemporal1, $nombreArchivo2, $archivoTemporal2, $nombreArchivo3, $archivoTemporal3) {
     $conexion = conectar();
+    $carpetaDestino = '../Archivos/';
+
+    // Generar identificadores únicos para los archivos
+    $idArchivo1 = generarIdUnico($conexion);
+    $idArchivo2 = generarIdUnico($conexion);
+    $idArchivo3 = generarIdUnico($conexion);
 
     // Preparar la consulta SQL para la inserción
-    $sql = "INSERT INTO proyecto (nomProyecto, descProyecto, rutaArc1, rutaArc2, rutaArc3) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO proyecto (nomProyecto, descProyecto, idArchivo1, rutaArc1, idArchivo2, rutaArc2, idArchivo3, rutaArc3) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conexion->prepare($sql);
-    $rutaArc2 = "";
-    $rutaArc3 = "";
-    $stmt->bind_param("sssss", $nombreProyecto, $descripcionProyecto, $archivoRuta, $rutaArc2, $rutaArc3);
+
+    $stmt->bind_param("ssssssss", $nombreProyecto, $descripcionProyecto, $idArchivo1, $nombreArchivo1, $idArchivo2, $nombreArchivo2, $idArchivo3, $nombreArchivo3);
 
     // Ejecutar la consulta
     if ($stmt->execute()) {
@@ -115,8 +121,39 @@ function insertarProyecto($nombreProyecto, $descripcionProyecto, $archivoRuta) {
         echo "Error al insertar datos: " . $stmt->error;
     }
 
-    // Cerrar la conexión
-    $stmt->close();
-    $conexion->close();
+    if (move_uploaded_file($archivoTemporal1, $carpetaDestino . $idArchivo1) &&
+        move_uploaded_file($archivoTemporal2, $carpetaDestino . $idArchivo2) &&
+        move_uploaded_file($archivoTemporal3, $carpetaDestino . $idArchivo3)) {
+        $stmt->close();
+        $conexion->close();
+        return true;
+    } else {
+        $stmt->close();
+        $conexion->close();
+        return false;
+    }
+
+    return true;
 }
+
+// Función para generar un ID único y comprobar su existencia en la base de datos
+function generarIdUnico($conexion) {
+    $idUnico = uniqid('archivo_');
+
+    // Consultar si el ID generado ya existe en la base de datos
+    $sql = "SELECT COUNT(*) AS count FROM proyecto WHERE idArchivo1 = ? OR idArchivo2 = ? OR idArchivo3 = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("sss", $idUnico, $idUnico, $idUnico);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc();
+
+    // Verificar la existencia del ID en la base de datos y generar uno nuevo si es necesario
+    if ($data['count'] > 0) {
+        $idUnico = generarIdUnico($conexion); // Generar uno nuevo si ya existe
+    }
+
+    return $idUnico;
+}
+
 ?>
