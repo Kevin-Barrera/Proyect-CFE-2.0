@@ -108,6 +108,11 @@ function insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1
     $idArchivo2 = generarIdUnico($conexion);
     $idArchivo3 = generarIdUnico($conexion);
 
+    // Obtener extensiones de los archivos originales
+    $extensionArchivo1 = pathinfo($nombreArchivo1, PATHINFO_EXTENSION);
+    $extensionArchivo2 = pathinfo($nombreArchivo2, PATHINFO_EXTENSION);
+    $extensionArchivo3 = pathinfo($nombreArchivo3, PATHINFO_EXTENSION);
+
     // Preparar la consulta SQL para la inserción
     $sql = "INSERT INTO proyecto (nomProyecto, descProyecto, idArchivo1, rutaArc1, idArchivo2, rutaArc2, idArchivo3, rutaArc3) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conexion->prepare($sql);
@@ -116,24 +121,42 @@ function insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1
 
     // Ejecutar la consulta
     if ($stmt->execute()) {
-        echo "<script>alert('Datos insertados con éxito.');</script>";
-    } else {
-        echo "Error al insertar datos: " . $stmt->error;
-    }
+        // Datos insertados con éxito, ahora movemos los archivos
 
-    if (move_uploaded_file($archivoTemporal1, $carpetaDestino . $idArchivo1) &&
-        move_uploaded_file($archivoTemporal2, $carpetaDestino . $idArchivo2) &&
-        move_uploaded_file($archivoTemporal3, $carpetaDestino . $idArchivo3)) {
+        // Mover el archivo 1 a la carpeta de destino con el nombre único y la extensión original
+        $rutaArchivo1 = $carpetaDestino . $idArchivo1 . '.' . $extensionArchivo1;
+        if (move_uploaded_file($archivoTemporal1, $rutaArchivo1)) {
+            echo "Archivo 1 movido con éxito.<br>";
+        } else {
+            echo "Error al mover el archivo 1 a la carpeta de destino.<br>";
+        }
+
+        // Mover el archivo 2 a la carpeta de destino con el nombre único y la extensión original
+        $rutaArchivo2 = $carpetaDestino . $idArchivo2 . '.' . $extensionArchivo2;
+        if (move_uploaded_file($archivoTemporal2, $rutaArchivo2)) {
+            echo "Archivo 2 movido con éxito.<br>";
+        } else {
+            echo "Error al mover el archivo 2 a la carpeta de destino.<br>";
+        }
+
+        // Mover el archivo 3 a la carpeta de destino con el nombre único y la extensión original
+        $rutaArchivo3 = $carpetaDestino . $idArchivo3 . '.' . $extensionArchivo3;
+        if (move_uploaded_file($archivoTemporal3, $rutaArchivo3)) {
+            echo "Archivo 3 movido con éxito.<br>";
+        } else {
+            echo "Error al mover el archivo 3 a la carpeta de destino.<br>";
+        }
+
         $stmt->close();
         $conexion->close();
         return true;
     } else {
-        $stmt->close();
-        $conexion->close();
-        return false;
+        echo "Error al insertar datos: " . $stmt->error;
     }
 
-    return true;
+    $stmt->close();
+    $conexion->close();
+    return false;
 }
 
 // Función para generar un ID único y comprobar su existencia en la base de datos
