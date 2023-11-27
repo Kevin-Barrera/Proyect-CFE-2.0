@@ -179,4 +179,73 @@ function generarIdUnico($conexion) {
     return $idUnico;
 }
 
+// Función para obtener la ruta del archivo asociado a un proyecto
+function obtenerRutaArchivoProyecto($id_proyecto, $numero_archivo) {
+    $conexion = conectar();
+
+    // Determinar el nombre del campo de rutaArc según el número de archivo
+    $campo_ruta = "rutaArc" . $numero_archivo;
+
+    // Preparar y ejecutar una consulta SQL para obtener la ruta del archivo
+    $sql = "SELECT $campo_ruta FROM proyecto WHERE idProyecto = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $id_proyecto);
+    $stmt->execute();
+
+    // Obtener los resultados
+    $result = $stmt->get_result();
+    $datos_proyecto = $result->fetch_assoc();
+
+    // Cerrar la conexión y retornar la ruta del archivo
+    $stmt->close();
+    $conexion->close();
+    return $datos_proyecto[$campo_ruta];
+}
+
+function obtenerIdArchivoProyecto($id_proyecto, $numero_archivo) {
+    $conexion = conectar();
+
+    // Determinar el nombre del campo de rutaArc según el número de archivo
+    $campo_ruta = "idArchivo" . $numero_archivo;
+
+    // Preparar y ejecutar una consulta SQL para obtener la ruta del archivo
+    $sql = "SELECT $campo_ruta FROM proyecto WHERE idProyecto = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $id_proyecto);
+    $stmt->execute();
+
+    // Obtener los resultados
+    $result = $stmt->get_result();
+    $datos_proyecto = $result->fetch_assoc();
+
+    // Cerrar la conexión y retornar la ruta del archivo
+    $stmt->close();
+    $conexion->close();
+    return $datos_proyecto[$campo_ruta];
+}
+
+// Función para actualizar la ruta del archivo asociado a un proyecto
+function actualizarRutaArchivoProyecto($id_proyecto, $numero_archivo, $nueva_ruta_archivo) {
+    $conexion = conectar();
+
+    // Determinar el nombre del campo de rutaArc según el número de archivo
+    $campo_ruta = "rutaArc" . $numero_archivo;
+
+    // Preparar la consulta SQL para actualizar la ruta del archivo
+    $sql = "UPDATE proyecto SET $campo_ruta = ? WHERE idProyecto = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("si", $nueva_ruta_archivo, $id_proyecto);
+
+    // Ejecutar la consulta
+    if ($stmt->execute()) {
+        // La ruta del archivo se ha actualizado con éxito en la base de datos
+    } else {
+        echo "Error al actualizar la ruta del archivo del proyecto: " . $stmt->error;
+    }
+
+    // Cerrar la conexión
+    $stmt->close();
+    $conexion->close();
+}
+
 ?>

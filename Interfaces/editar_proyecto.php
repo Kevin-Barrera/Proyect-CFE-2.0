@@ -8,28 +8,34 @@ if (isset($_POST['guardarCambios'])) {
     $descripcionProyecto = $_POST['descripcion'];
 
     // Verifica si se ha subido un nuevo archivo Excel
-    if ($_FILES['archivo']['name']) {
-        // Procesa y guarda el nuevo archivo Excel
-        $archivoRuta = $_FILES['archivo']['name'];
-        $archivoTemporal = $_FILES['archivo']['tmp_name'];
+    for ($i = 1; $i <= 3; $i++) {
+        $campo_archivo = "archivo" . $i;
 
-        // Ruta de la carpeta donde se guardarán los archivos subidos
-        $carpetaDestino = '../Archivos/';
+        if ($_FILES[$campo_archivo]['name']) {
+            // Procesa y guarda el nuevo archivo Excel
+            $archivoRuta = $_FILES[$campo_archivo]['name'];
+            $archivoTemporal = $_FILES[$campo_archivo]['tmp_name'];
 
-        // Verifica si hay un archivo existente
-        $datos_proyecto = obtenerDatosDelProyecto($id_proyecto);
-        $archivoExistente = $datos_proyecto['rutaArc1'];
-        if (!empty($archivoExistente) && file_exists($carpetaDestino . $archivoExistente)) {
-            // Elimina el archivo existente
-            unlink($carpetaDestino . $archivoExistente);
-        }
+            // Ruta de la carpeta donde se guardarán los archivos subidos
+            $carpetaDestino = '../Archivos/';
 
-        // Mover el nuevo archivo a la carpeta de destino
-        if (move_uploaded_file($archivoTemporal, $carpetaDestino . $archivoRuta)) {
-            // Actualiza el nombre del archivo en la base de datos
-            actualizarNombreArchivoProyecto($id_proyecto, $archivoRuta);
-        } else {
-            echo "Error al mover el archivo a la carpeta de destino.";
+            // Obtiene la ruta del archivo existente
+            $archivoExistente = obtenerRutaArchivoProyecto($id_proyecto, $i);
+            $idArchivoExistente = obtenerIdArchivoProyecto($id_proyecto, $i);
+            $idArchivoExistente = $idArchivoExistente . '.xlsx';
+
+            // Elimina el archivo existente si hay uno y es diferente al nuevo
+            if (!empty($idArchivoExistente) && file_exists($carpetaDestino . $idArchivoExistente)) {
+                unlink($carpetaDestino . $idArchivoExistente);
+            }
+
+            // Mover el nuevo archivo a la carpeta de destino
+            if (move_uploaded_file($archivoTemporal, $carpetaDestino . $idArchivoExistente)) {
+                // Actualiza la ruta del archivo en la base de datos
+                actualizarRutaArchivoProyecto($id_proyecto, $i, $archivoRuta);
+            } else {
+                echo "Error al mover el archivo a la carpeta de destino.";
+            }
         }
     }
 
@@ -51,35 +57,47 @@ $datos_proyecto = obtenerDatosDelProyecto($id_proyecto);
             <h1 class="mb-4">Editar archivo</h1>
             <!-- Formulario para editar el proyecto con los datos obtenidos -->
             <form action="editar_proyecto.php?id=<?php echo $id_proyecto; ?>" method="post" enctype="multipart/form-data">
-            <!-- Campos para mostrar y editar los datos del proyecto -->
-            <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre del Proyecto:</label>
-                <input type="text" name="nombre" value="<?php echo $datos_proyecto['nomProyecto']; ?>" class="form-control">
-            </div>
-            <div class="mb-3">
-                <label for="descripcion" class="form-label">Descripción:</label>
-                <input type="text" name="descripcion" value="<?php echo $datos_proyecto['descProyecto']; ?>" class="form-control">
-            </div>
-            <!-- Campo para el archivo Excel -->
-            <div class="mb-3">
-                <label for="archivo" class="form-label">Selecciona un archivo Excel (Si desea actualizarlo):</label>
-                <input type="file" class="form-control" name="archivo" accept=".xlsx">
-            </div>
-            <!-- Otros campos del formulario según tus necesidades -->
-            <!-- Botón para guardar los cambios -->
-            <button type="submit" class="btn btn-primary" name="guardarCambios">Guardar Cambios</button>
-            <button type="button" class="btn btn-danger" onclick="cancelar()">Cancelar</button>
-        </form>
+                <!-- Campos para mostrar y editar los datos del proyecto -->
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre del Proyecto:</label>
+                    <input type="text" name="nombre" value="<?php echo $datos_proyecto['nomProyecto']; ?>" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción:</label>
+                    <input type="text" name="descripcion" value="<?php echo $datos_proyecto['descProyecto']; ?>" class="form-control">
+                </div>
+                <!-- Campo para el archivo Excel -->
+                <div class="mb-3">
+                    <label for="archivo1" class="form-label">Selecciona un archivo Excel (Si desea actualizarlo):</label>
+                    <input type="file" class="form-control" name="archivo1" accept=".xlsx">
+                </div>
+
+                <!-- Campo para el archivo Excel 2 -->
+                <div class="mb-3">
+                    <label for="archivo2" class="form-label">Selecciona un archivo Excel (Si desea actualizarlo):</label>
+                    <input type="file" class="form-control" name="archivo2" accept=".xlsx">
+                </div>
+
+                <!-- Campo para el archivo Excel 3 -->
+                <div class="mb-3">
+                    <label for="archivo3" class="form-label">Selecciona un archivo Excel (Si desea actualizarlo):</label>
+                    <input type="file" class="form-control" name="archivo3" accept=".xlsx">
+                </div>
+                <!-- Otros campos del formulario según tus necesidades -->
+                <!-- Botón para guardar los cambios -->
+                <button type="submit" class="btn btn-primary" name="guardarCambios">Guardar Cambios</button>
+                <button type="button" class="btn btn-danger" onclick="cancelar()">Cancelar</button>
+            </form>
+        </div>
     </div>
-</div>
 </div>
 
 <script>
-function cancelar() {
-    window.location.href = "./index.php";
-}
+    function cancelar() {
+        window.location.href = "./index.php";
+    }
 </script>
 
-<?php 
-    require_once './footer.php'; 
+<?php
+require_once './footer.php';
 ?>
