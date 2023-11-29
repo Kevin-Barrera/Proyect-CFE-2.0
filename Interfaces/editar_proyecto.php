@@ -79,10 +79,10 @@ $datos_proyecto = obtenerDatosDelProyecto($id_proyecto);
                 </div>
 
                 <!-- Campo para el archivo Excel 3 -->
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="archivo3" class="form-label">Selecciona un archivo Excel (Si desea actualizarlo):</label>
                     <input type="file" class="form-control" name="archivo3" accept=".xlsx">
-                </div>
+                </div> -->
                 <!-- Otros campos del formulario según tus necesidades -->
                 <!-- Botón para guardar los cambios -->
                 <button type="submit" class="btn btn-primary" name="guardarCambios">Guardar Cambios</button>

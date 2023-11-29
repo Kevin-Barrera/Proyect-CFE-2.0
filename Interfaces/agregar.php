@@ -30,14 +30,14 @@
                         <label for="archivo" class="form-label">Selecciona el primer archivo Excel:</label>
                         <input type="file" class="form-control" id="archivo1" name="archivo1" accept=".xlsx">
                     </div>
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label for="archivo" class="form-label">Selecciona el segundo archivo Excel:</label>
                         <input type="file" class="form-control" id="archivo2" name="archivo2" accept=".xlsx">
                     </div>
                     <div class="mb-3">
                         <label for="archivo" class="form-label">Selecciona el tercer archivo Excel:</label>
                         <input type="file" class="form-control" id="archivo3" name="archivo3" accept=".xlsx">
-                    </div>
+                    </div> -->
                     <br>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" name="crearProyecto">Subir archivo</button>
