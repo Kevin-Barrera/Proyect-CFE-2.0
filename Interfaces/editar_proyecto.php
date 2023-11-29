@@ -8,7 +8,7 @@ if (isset($_POST['guardarCambios'])) {
     $descripcionProyecto = $_POST['descripcion'];
 
     // Verifica si se ha subido un nuevo archivo Excel
-    for ($i = 1; $i <= 3; $i++) {
+    for ($i = 1; $i <= 2; $i++) {
         $campo_archivo = "archivo" . $i;
 
         if ($_FILES[$campo_archivo]['name']) {
