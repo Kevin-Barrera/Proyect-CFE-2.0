@@ -1,5 +1,4 @@
 <?php include "../php/bd.php" ?>
-<script src="../Js/bd.js"></script>
 
 <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

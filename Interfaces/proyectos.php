@@ -61,16 +61,16 @@ if ($resultado->num_rows > 0) {
         echo "<td>" . $fila["idProyecto"] . "</td>";
         echo "<td>" . $fila["nomProyecto"] . "</td>";
         echo "<td>" . $fila["descProyecto"] . "</td>";
-        echo "<td>" . $fila["rutaArc1"] . "</td>";
+        echo "<td><a href='./detalle_proyecto.php?idProyecto=" . $fila["idProyecto"] . "&tipo=1'>" . $fila["rutaArc1"] . "</a></td>";
         
         // Mostrar el botón "Generar" solo si no hay valor en idArchivo1
-        if(empty($fila["idArchivo1"])){
+        if (empty($fila["idArchivo1"])) {
             echo "<td></td>";
-        }else if (empty($fila["idArchivo2"])) {
+        } else if (empty($fila["idArchivo2"])) {
             echo "<td style='text-align: center;'>" . "<button class='btn btn-primary' onclick='generarReporte(" . $fila["idProyecto"] . ")'>Generar</button>" . "</td>";
         } else {
             // Mostrar el valor de rutaArc2 en caso contrario
-            echo "<td>" . $fila["rutaArc2"] . "</td>";
+            echo "<td><a href='./detalle_proyecto.php?idProyecto=" . $fila["idProyecto"] . "&tipo=2'>" . $fila["rutaArc2"] . "</a></td>";
         }
 
         echo "<td style='text-align: center;'>" . "<button class='btn btn-danger' onclick='eliminarProyecto(" . $fila["idProyecto"] . ")'>Eliminar</button>" . "</td>";
@@ -83,9 +83,6 @@ if ($resultado->num_rows > 0) {
 }
 
     echo "</div></div>";
-
-// No cierres la conexión aquí, ya que aún necesitas los resultados
-// $conexion->close();
 ?>
 
 <script>
