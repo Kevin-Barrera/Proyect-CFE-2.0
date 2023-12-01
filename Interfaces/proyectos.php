@@ -64,9 +64,9 @@ if ($resultado->num_rows > 0) {
         echo "<td><a href='./detalle_proyecto.php?idProyecto=" . $fila["idProyecto"] . "&tipo=1'>" . $fila["rutaArc1"] . "</a></td>";
         
         // Mostrar el botón "Generar" solo si no hay valor en idArchivo1
-        if (empty($fila["idArchivo1"])) {
+        if (empty($fila["rutaArc1"]) && empty($fila["rutaArc2"])) {
             echo "<td></td>";
-        } else if (empty($fila["idArchivo2"])) {
+        } else if (empty($fila["rutaArc2"])) {
             echo "<td style='text-align: center;'>" . "<button class='btn btn-primary' onclick='generarReporte(" . $fila["idProyecto"] . ")'>Generar</button>" . "</td>";
         } else {
             // Mostrar el valor de rutaArc2 en caso contrario
