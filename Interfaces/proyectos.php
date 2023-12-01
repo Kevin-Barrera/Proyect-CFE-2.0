@@ -1,5 +1,4 @@
 <?php require_once './header.php'; ?>
-<script src="../Js/conexion.js" defer></script>
 
 <?php
 // Conexión a la base de datos (reemplaza con tus propios datos)
@@ -90,6 +89,23 @@ function eliminarProyecto(idProyecto) {
     if (confirm("¿Estás seguro de que quieres eliminar este proyecto?")) {
         window.location.href = "./proyectos.php?eliminar_proyecto=" + idProyecto;
     }
+}
+
+function generarReporte(idProyecto) {
+    // Aquí haces la llamada AJAX al servidor para generar el reporte
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', './generar_reporte.php?idProyecto=' + idProyecto, true);
+    console.log('');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            alert("Reporte generado con éxito.");
+            window.location.href = "./proyectos.php";
+        } else {
+            alert("Error al generar el reporte.");
+        }
+    };
+
+    xhr.send();
 }
 </script>
 

@@ -2,9 +2,9 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Conecta a la base de datos (ajusta las credenciales según tu configuración)
     $servername = "localhost";
-    $username = "tu_usuario";
-    $password = "tu_contraseña";
-    $database = "tu_base_de_datos";
+    $username = "root";
+    $password = "";
+    $database = "cfe";
 
     $conexion = new mysqli($servername, $username, $password, $database);
 
@@ -39,4 +39,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $response = array('success' => false, 'error' => 'Método no válido');
     echo json_encode($response);
 }
-?>
