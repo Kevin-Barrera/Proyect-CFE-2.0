@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "exceljs": "^4.4.0",
     "handsontable": "^13.1.0"
   }
 }

@@ -20,7 +20,7 @@ function obtenerDatosDelProyecto($id_proyecto) {
     $conexion = conectar();
 
     // Preparar y ejecutar una consulta SQL para obtener los datos del proyecto
-    $sql = "SELECT idProyecto, nomProyecto, descProyecto, rutaArc1, rutaArc2, rutaArc3 FROM proyecto WHERE idProyecto = ?";
+    $sql = "SELECT idProyecto, nomProyecto, descProyecto, rutaArc1, rutaArc2 FROM proyecto WHERE idProyecto = ?";
     $stmt = $conexion->prepare($sql);
     $stmt->bind_param("i", $id_proyecto);
     $stmt->execute();
@@ -83,11 +83,9 @@ if (isset($_POST['crearProyecto'])) {
     $archivoTemporal1 = $_FILES['archivo1']['tmp_name'];
     $nombreArchivo2 = $_FILES['archivo2']['name'];
     $archivoTemporal2 = $_FILES['archivo2']['tmp_name'];
-    $nombreArchivo3 = $_FILES['archivo3']['name'];
-    $archivoTemporal3 = $_FILES['archivo3']['tmp_name'];
 
     // Llamada a la función insertarProyecto con los datos capturados
-    $respuesta = insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1, $archivoTemporal1, $nombreArchivo2, $archivoTemporal2, $nombreArchivo3, $archivoTemporal3);    
+    $respuesta = insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1, $archivoTemporal1, $nombreArchivo2, $archivoTemporal2);    
 
     // Mover el archivo a la carpeta de destino
     if ($respuesta) {
@@ -99,25 +97,23 @@ if (isset($_POST['crearProyecto'])) {
 }
 
 // Función para insertar un proyecto en la base de datos
-function insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1, $archivoTemporal1, $nombreArchivo2, $archivoTemporal2, $nombreArchivo3, $archivoTemporal3) {
+function insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1, $archivoTemporal1, $nombreArchivo2, $archivoTemporal2) {
     $conexion = conectar();
     $carpetaDestino = '../Archivos/';
 
     // Generar identificadores únicos para los archivos
     $idArchivo1 = generarIdUnico($conexion);
     $idArchivo2 = generarIdUnico($conexion);
-    $idArchivo3 = generarIdUnico($conexion);
 
     // Obtener extensiones de los archivos originales
     $extensionArchivo1 = pathinfo($nombreArchivo1, PATHINFO_EXTENSION);
     $extensionArchivo2 = pathinfo($nombreArchivo2, PATHINFO_EXTENSION);
-    $extensionArchivo3 = pathinfo($nombreArchivo3, PATHINFO_EXTENSION);
 
     // Preparar la consulta SQL para la inserción
-    $sql = "INSERT INTO proyecto (nomProyecto, descProyecto, idArchivo1, rutaArc1, idArchivo2, rutaArc2, idArchivo3, rutaArc3) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO proyecto (nomProyecto, descProyecto, idArchivo1, rutaArc1, idArchivo2, rutaArc2) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conexion->prepare($sql);
 
-    $stmt->bind_param("ssssssss", $nombreProyecto, $descripcionProyecto, $idArchivo1, $nombreArchivo1, $idArchivo2, $nombreArchivo2, $idArchivo3, $nombreArchivo3);
+    $stmt->bind_param("ssssss", $nombreProyecto, $descripcionProyecto, $idArchivo1, $nombreArchivo1, $idArchivo2, $nombreArchivo2);
 
     // Ejecutar la consulta
     if ($stmt->execute()) {
@@ -139,14 +135,6 @@ function insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1
             echo "Error al mover el archivo 2 a la carpeta de destino.<br>";
         }
 
-        // Mover el archivo 3 a la carpeta de destino con el nombre único y la extensión original
-        $rutaArchivo3 = $carpetaDestino . $idArchivo3 . '.' . $extensionArchivo3;
-        if (move_uploaded_file($archivoTemporal3, $rutaArchivo3)) {
-            echo "Archivo 3 movido con éxito.<br>";
-        } else {
-            echo "Error al mover el archivo 3 a la carpeta de destino.<br>";
-        }
-
         $stmt->close();
         $conexion->close();
         return true;
@@ -164,9 +152,9 @@ function generarIdUnico($conexion) {
     $idUnico = uniqid('archivo_');
 
     // Consultar si el ID generado ya existe en la base de datos
-    $sql = "SELECT COUNT(*) AS count FROM proyecto WHERE idArchivo1 = ? OR idArchivo2 = ? OR idArchivo3 = ?";
+    $sql = "SELECT COUNT(*) AS count FROM proyecto WHERE idArchivo1 = ? OR idArchivo2 = ?";
     $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("sss", $idUnico, $idUnico, $idUnico);
+    $stmt->bind_param("ss", $idUnico, $idUnico);
     $stmt->execute();
     $result = $stmt->get_result();
     $data = $result->fetch_assoc();
