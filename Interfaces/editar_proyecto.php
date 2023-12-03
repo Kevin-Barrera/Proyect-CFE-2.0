@@ -43,7 +43,8 @@ if (isset($_POST['guardarCambios'])) {
     guardarCambiosProyecto($id_proyecto, $nombreProyecto, $descripcionProyecto);
 
     // Redirige a la página de éxito o a donde desees después de guardar los cambios.
-    echo "<script>alert('Los datos se han actualizado correctamente.');</script>";
+    echo "<script>alert('Los datos se han actualizado correctamente.');
+    window.location.href = './index.php';</script>";
     //header("Location: index.php?success=true");
 }
 

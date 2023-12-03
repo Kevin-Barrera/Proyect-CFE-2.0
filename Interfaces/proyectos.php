@@ -89,6 +89,7 @@ function eliminarProyecto(idProyecto) {
     if (confirm("¿Estás seguro de que quieres eliminar este proyecto?")) {
         window.location.href = "./proyectos.php?eliminar_proyecto=" + idProyecto;
     }
+    window.location.href = "./proyectos.php";
 }
 
 function generarReporte(idProyecto) {

@@ -102,8 +102,8 @@ function insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1
     $carpetaDestino = '../Archivos/';
 
     // Generar identificadores únicos para los archivos
-    $idArchivo1 = generarIdUnico($conexion);
-    $idArchivo2 = generarIdUnico($conexion);
+    $idArchivo1 = generarIdUnico($conexion, 1);
+    $idArchivo2 = generarIdUnico($conexion, 2);
 
     // Obtener extensiones de los archivos originales
     $extensionArchivo1 = pathinfo($nombreArchivo1, PATHINFO_EXTENSION);
@@ -148,9 +148,13 @@ function insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1
 }
 
 // Función para generar un ID único y comprobar su existencia en la base de datos
-function generarIdUnico($conexion) {
-    $idUnico = uniqid('archivo_');
-
+function generarIdUnico($conexion, $tipo) {
+    if($tipo == 1){
+        $idUnico = uniqid('archivo1_');
+    }else if($tipo == 2){
+        $idUnico = uniqid('archivo2_');
+    }
+    
     // Consultar si el ID generado ya existe en la base de datos
     $sql = "SELECT COUNT(*) AS count FROM proyecto WHERE idArchivo1 = ? OR idArchivo2 = ?";
     $stmt = $conexion->prepare($sql);
@@ -161,7 +165,7 @@ function generarIdUnico($conexion) {
 
     // Verificar la existencia del ID en la base de datos y generar uno nuevo si es necesario
     if ($data['count'] > 0) {
-        $idUnico = generarIdUnico($conexion); // Generar uno nuevo si ya existe
+        $idUnico = generarIdUnico($conexion, $tipo); // Generar uno nuevo si ya existe
     }
 
     return $idUnico;
