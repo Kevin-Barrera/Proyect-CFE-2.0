@@ -1,0 +1,70 @@
+.contact-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.contact-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contact-form label {
+    margin-bottom: 5px;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form input[type="tel"],
+.contact-form textarea,
+.contact-form select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+/* ... tus estilos anteriores ... */
+.contact-form .password-container {
+    width: 100%;
+}
+
+.contact-form .password-container input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+/* ... tus estilos anteriores ... */
+
+
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.contact-form input[type="checkbox"] {
+    margin-top: 5px;
+}
+
+.contact-form button.btn-full-width {
+    flex: 1; /* Ocupa el espacio disponible */
+    padding: 10px;
+    background-color: #3B61D1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.contact-form button.btn-full-width:hover {
+    background-color: #0056b3;
+}
+
