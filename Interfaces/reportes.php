@@ -1,34 +1,62 @@
 <?php require_once './header.php'; ?>
 
 <?php
-$directorio = '../Archivos'; // Ruta a la carpeta donde se almacenan los archivos
-$archivos = scandir($directorio);
-$archivos_excel = array();
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "cfe";
 
-foreach ($archivos as $archivo) {
-    if (pathinfo($archivo, PATHINFO_EXTENSION) === 'xlsx') {
-        $archivos_excel[] = $archivo;
+$conexion = new mysqli($servername, $username, $password, $database);
+
+if ($conexion->connect_error) {
+    die("Conexión fallida: " . $conexion->connect_error);
+}
+
+$sql = "SELECT idProyecto, nomProyecto, idArchivo1, rutaArc1, idArchivo2, rutaArc2 FROM proyecto";
+$result = $conexion->query($sql);
+
+$proyectos = array();
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $proyectos[] = $row;
     }
 }
+
+$conexion->close();
 ?>
 
 <div class="container my-5">
-    <h1>Archivos Excel Almacenados</h1>
+    <h1>Proyectos</h1>
     <div class="table-responsive">
         <table id="tabla" class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th>Nombre del Archivo</th>
-                    <th>Acciones</th>
+                    <th>ID del Proyecto</th>
+                    <th>Nombre del Proyecto</th>
+                    <th>Nombre del Reporte Inicial</th>
+                    <th>Nombre del Reporte Final</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($archivos_excel as $archivo) { ?>
+                <?php foreach ($proyectos as $proyecto) { ?>
                     <tr>
-                        <td><a href="Archivos/<?php echo $archivo; ?>"><?php echo $archivo; ?></a></td>
+                        <td><?php echo $proyecto["idProyecto"]; ?></td>
+                        <td><?php echo $proyecto["nomProyecto"]; ?></td>
                         <td>
-                            <a href="../php/eliminar.php?archivo=<?php echo $archivo; ?>" class="btn btn-danger">Eliminar</a>
-                            <a href="convertir.php?archivo=<?php echo $archivo; ?>" class="btn btn-primary">Convertir</a>
+                            <?php if (!empty($proyecto["rutaArc1"])) { ?>
+                                <?php echo $proyecto["rutaArc1"]; ?>
+                                <br>
+                                <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo1']; ?>', 1)">Eliminar</button>
+                                <a href="../php/descargar.php?archivo=<?php echo $proyecto["rutaArc1"]; ?>" class="btn btn-primary">Descargar</a>
+                            <?php } ?>
+                        </td>
+                        <td>
+                            <?php if (!empty($proyecto["rutaArc2"])) { ?>
+                                <?php echo $proyecto["rutaArc2"]; ?>
+                                <br>
+                                <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo2']; ?>', 2)">Eliminar</button>
+                                <a href="../php/descargar.php?archivo=<?php echo $proyecto["rutaArc2"]; ?>" class="btn btn-primary">Descargar</a>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>
@@ -37,21 +65,12 @@ foreach ($archivos as $archivo) {
     </div>
 </div>
 
-<!-- script para exportar a excel -->
 <script>
-    const $btnExportar = document.querySelector("#btnExportar"),
-        $tabla = document.querySelector("#tabla");
-
-    $btnExportar.addEventListener("click", function() {
-        let tableExport = new TableExport($tabla, {
-            exportButtons: false, // No queremos botones
-            filename: "Reporte de prueba", //Nombre del archivo de Excel
-            sheetname: "Reporte de prueba", //Título de la hoja
-        });
-        let datos = tableExport.getExportData();
-        let preferenciasDocumento = datos.tabla.xlsx;
-        tableExport.export2file(preferenciasDocumento.data, preferenciasDocumento.mimeType, preferenciasDocumento.filename, preferenciasDocumento.fileExtension, preferenciasDocumento.merges, preferenciasDocumento.RTL, preferenciasDocumento.sheetname);
-    });
+function confirmarEliminar(idArchivo, tipo) {
+    if (confirm("¿Seguro que quieres eliminar este archivo?")) {
+        window.location.href = `../php/eliminar.php?idArchivo=${idArchivo}&tipo=${tipo}`;
+    }
+}
 </script>
 
 <?php require_once './footer.php'; ?>

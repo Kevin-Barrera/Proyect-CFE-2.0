@@ -1,0 +1,13 @@
+{
+    "name": "tu/nombre-de-proyecto",
+    "description": "Descripción de tu proyecto",
+    "type": "project",
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.29"
+    },
+    "autoload": {
+        "psr-4": {
+            "TuNamespace\\": "Interfaces"
+        }
+    }
+}

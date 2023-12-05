@@ -32,6 +32,8 @@ require_once './header.php';
         echo "<p><strong>ID del Proyecto:</strong> " . $proyecto["idProyecto"] . "</p>";
         echo "<p><strong>Nombre del Proyecto:</strong> " . $proyecto["nomProyecto"] . "</p>";
         echo "<p><strong>Descripción:</strong> " . $proyecto["descProyecto"] . "</p>";
+        echo "<p><strong>Zona:</strong> " . $proyecto["zona"] . "</p>";
+        echo "<p><strong>Obra:</strong> " . $proyecto["obra"] . "</p>";
 
 
         if ($tipo == 1) {
@@ -48,7 +50,7 @@ require_once './header.php';
             // Llamar a la función desde el script JavaScript
             echo '<script src="../Js/mostrarTablaExcel.js"></script>';
             echo '<script>mostrarTablaExcel("' . $archivoXlsx . '");</script>';
-        } elseif ($tipo == 2) {
+        } else if ($tipo == 2) {
             echo "<div class='d-flex' style='justify-content: space-between;'>";
             echo "<p><strong>Detalles del Reporte Inicial</strong></p>";
             echo "<button class='btn btn-success mr-4 mb-3' onclick='guardarCambios($tipo)'>Guardar Cambios</button>";
@@ -88,7 +90,7 @@ require_once './header.php';
         } else if ($tipo == 2) {
             var idArchivo = '<?php echo $proyecto["idArchivo2"]; ?>';
         }
-        console.log("ID Archivo:", idArchivo); // Agrega esta línea para verificar en la consola
+        // console.log("ID Archivo:", idArchivo); // Agrega esta línea para verificar en la consola
 
         // Convertir el libro a una cadena binaria
         var wbout = XLSX.write(wb, {
