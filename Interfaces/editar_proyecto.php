@@ -6,6 +6,8 @@ $id_proyecto = $_GET['id'];
 if (isset($_POST['guardarCambios'])) {
     $nombreProyecto = $_POST['nombre'];
     $descripcionProyecto = $_POST['descripcion'];
+    $zonaProyecto = $_POST['zona'];
+    $obraProyecto = $_POST['obra'];
 
     // Verifica si se ha subido un nuevo archivo Excel
     for ($i = 1; $i <= 2; $i++) {
@@ -40,7 +42,7 @@ if (isset($_POST['guardarCambios'])) {
     }
 
     // Realiza la llamada a la función para guardar los cambios
-    guardarCambiosProyecto($id_proyecto, $nombreProyecto, $descripcionProyecto);
+    guardarCambiosProyecto($id_proyecto, $nombreProyecto, $descripcionProyecto, $zonaProyecto, $obraProyecto);
 
     // Redirige a la página de éxito o a donde desees después de guardar los cambios.
     echo "<script>alert('Los datos se han actualizado correctamente.');
@@ -67,6 +69,14 @@ $datos_proyecto = obtenerDatosDelProyecto($id_proyecto);
                     <label for="descripcion" class="form-label">Descripción:</label>
                     <input type="text" name="descripcion" value="<?php echo $datos_proyecto['descProyecto']; ?>" class="form-control">
                 </div>
+                <div class="mb-3">
+                    <label for="zona" class="form-label">Zona:</label>
+                    <input type="text" name="zona" value="<?php echo $datos_proyecto['zona']; ?>" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="obra" class="form-label">Obra:</label>
+                    <input type="text" name="obra" value="<?php echo $datos_proyecto['obra']; ?>" class="form-control">
+                </div>
                 <!-- Campo para el archivo Excel -->
                 <div class="mb-3">
                     <label for="archivo1" class="form-label">Selecciona un archivo Excel (Si desea actualizarlo):</label>
@@ -78,12 +88,6 @@ $datos_proyecto = obtenerDatosDelProyecto($id_proyecto);
                     <label for="archivo2" class="form-label">Selecciona un archivo Excel (Si desea actualizarlo):</label>
                     <input type="file" class="form-control" name="archivo2" accept=".xlsx">
                 </div>
-
-                <!-- Campo para el archivo Excel 3 -->
-                <!-- <div class="mb-3">
-                    <label for="archivo3" class="form-label">Selecciona un archivo Excel (Si desea actualizarlo):</label>
-                    <input type="file" class="form-control" name="archivo3" accept=".xlsx">
-                </div> -->
                 <!-- Otros campos del formulario según tus necesidades -->
                 <!-- Botón para guardar los cambios -->
                 <button type="submit" class="btn btn-primary" name="guardarCambios">Guardar Cambios</button>

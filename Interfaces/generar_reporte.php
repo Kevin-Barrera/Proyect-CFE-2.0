@@ -27,7 +27,8 @@ if (isset($_GET['idProyecto'])) {
     if ($idArchivo2) {
         $nombreArchivoOriginal = "../Archivos/REPORTE FINAL.xlsx";  // Cambia esto según tu estructura de archivos
         $nombreNuevo = "Reporte Final - " . $nomProyecto;
-        $nombreArchivoNuevo = "../Archivos/" . $nombreNuevo . ".xlsx";
+        $idArc = $idArchivo2;
+        $nombreArchivoNuevo = "../Archivos/" . $idArc . ".xlsx";
 
         // Copiar el archivo
         if (copy($nombreArchivoOriginal, $nombreArchivoNuevo)) {

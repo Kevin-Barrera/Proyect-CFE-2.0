@@ -20,7 +20,7 @@ function obtenerDatosDelProyecto($id_proyecto) {
     $conexion = conectar();
 
     // Preparar y ejecutar una consulta SQL para obtener los datos del proyecto
-    $sql = "SELECT idProyecto, nomProyecto, descProyecto, rutaArc1, rutaArc2 FROM proyecto WHERE idProyecto = ?";
+    $sql = "SELECT idProyecto, nomProyecto, descProyecto, zona, obra, rutaArc1, rutaArc2 FROM proyecto WHERE idProyecto = ?";
     $stmt = $conexion->prepare($sql);
     $stmt->bind_param("i", $id_proyecto);
     $stmt->execute();
@@ -56,13 +56,13 @@ function actualizarNombreArchivoProyecto($id_proyecto, $nuevoNombreArchivo) {
     $conexion->close();
 }
 
-function guardarCambiosProyecto($id_proyecto, $nombreProyecto, $descripcionProyecto) {
+function guardarCambiosProyecto($id_proyecto, $nombreProyecto, $descripcionProyecto, $zonaProyecto, $obraProyecto) {
     $conexion = conectar();
 
     // Preparar la consulta SQL para actualizar los datos del proyecto
-    $sql = "UPDATE proyecto SET nomProyecto = ?, descProyecto = ? WHERE idProyecto = ?";
+    $sql = "UPDATE proyecto SET nomProyecto = ?, descProyecto = ?, zona = ?, obra = ? WHERE idProyecto = ?";
     $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("ssi", $nombreProyecto, $descripcionProyecto, $id_proyecto);
+    $stmt->bind_param("ssssi", $nombreProyecto, $descripcionProyecto, $zonaProyecto, $obraProyecto, $id_proyecto);
 
     // Ejecutar la consulta
     if ($stmt->execute()) {
@@ -79,13 +79,15 @@ function guardarCambiosProyecto($id_proyecto, $nombreProyecto, $descripcionProye
 if (isset($_POST['crearProyecto'])) {
     $nombreProyecto = $_POST['nombre'];
     $descripcionProyecto = $_POST['descripcion'];
+    $zonaProyecto = $_POST['zona'];
+    $obraProyecto = $_POST['obra'];
     $nombreArchivo1 = $_FILES['archivo1']['name'];
     $archivoTemporal1 = $_FILES['archivo1']['tmp_name'];
     $nombreArchivo2 = $_FILES['archivo2']['name'];
     $archivoTemporal2 = $_FILES['archivo2']['tmp_name'];
 
     // Llamada a la función insertarProyecto con los datos capturados
-    $respuesta = insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1, $archivoTemporal1, $nombreArchivo2, $archivoTemporal2);    
+    $respuesta = insertarProyecto($nombreProyecto, $descripcionProyecto, $zonaProyecto, $obraProyecto, $nombreArchivo1, $archivoTemporal1, $nombreArchivo2, $archivoTemporal2);    
 
     // Mover el archivo a la carpeta de destino
     if ($respuesta) {
@@ -97,7 +99,7 @@ if (isset($_POST['crearProyecto'])) {
 }
 
 // Función para insertar un proyecto en la base de datos
-function insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1, $archivoTemporal1, $nombreArchivo2, $archivoTemporal2) {
+function insertarProyecto($nombreProyecto, $descripcionProyecto, $zonaProyecto, $obraProyecto, $nombreArchivo1, $archivoTemporal1, $nombreArchivo2, $archivoTemporal2) {
     $conexion = conectar();
     $carpetaDestino = '../Archivos/';
 
@@ -110,10 +112,10 @@ function insertarProyecto($nombreProyecto, $descripcionProyecto, $nombreArchivo1
     $extensionArchivo2 = pathinfo($nombreArchivo2, PATHINFO_EXTENSION);
 
     // Preparar la consulta SQL para la inserción
-    $sql = "INSERT INTO proyecto (nomProyecto, descProyecto, idArchivo1, rutaArc1, idArchivo2, rutaArc2) VALUES (?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO proyecto (nomProyecto, descProyecto, zona, obra, idArchivo1, rutaArc1, idArchivo2, rutaArc2) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conexion->prepare($sql);
 
-    $stmt->bind_param("ssssss", $nombreProyecto, $descripcionProyecto, $idArchivo1, $nombreArchivo1, $idArchivo2, $nombreArchivo2);
+    $stmt->bind_param("ssssssss", $nombreProyecto, $descripcionProyecto, $zonaProyecto, $obraProyecto, $idArchivo1, $nombreArchivo1, $idArchivo2, $nombreArchivo2);
 
     // Ejecutar la consulta
     if ($stmt->execute()) {

@@ -32,6 +32,8 @@ require_once './header.php';
         echo "<p><strong>ID del Proyecto:</strong> " . $proyecto["idProyecto"] . "</p>";
         echo "<p><strong>Nombre del Proyecto:</strong> " . $proyecto["nomProyecto"] . "</p>";
         echo "<p><strong>Descripción:</strong> " . $proyecto["descProyecto"] . "</p>";
+        echo "<p><strong>Zona:</strong> " . $proyecto["zona"] . "</p>";
+        echo "<p><strong>Obra:</strong> " . $proyecto["obra"] . "</p>";
 
 
         if ($tipo == 1) {
