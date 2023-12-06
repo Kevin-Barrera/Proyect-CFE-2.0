@@ -1,4 +1,39 @@
 <?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "cfe";
+
+$conexion = new mysqli($servername, $username, $password, $database);
+
+if ($conexion->connect_error) {
+    die("Conexión fallida: " . $conexion->connect_error);
+}
+
+// Verifica si se proporciona el ID del trabajador en la URL
+if (isset($_GET['idTrabajador'])) {
+    $idTrabajador = $_GET['idTrabajador'];
+
+    // Consulta para obtener los detalles del trabajador específico
+    $sql = "SELECT idTrabajador, nombreTrab, apellidoTrab, telefono, puesto, usuario FROM trabajador WHERE idTrabajador = $idTrabajador";
+    $result = $conexion->query($sql);
+
+    if ($result->num_rows > 0) {
+        $trabajador = $result->fetch_assoc();
+        $usuario = $trabajador['usuario'];
+    } else {
+        // Manejar el caso donde no se encuentra el trabajador con el ID proporcionado
+        $usuario = "Trabajador no encontrado";
+    }
+} else {
+    // Manejar el caso donde no se proporciona el ID del trabajador en la URL
+    $usuario = "ID de trabajador no especificado";
+}
+
+$conexion->close();
+?>
+
+<?php
 
 function conectar(){
     $servername = "localhost"; // Nombre del servidor MySQL
@@ -92,7 +127,7 @@ if (isset($_POST['crearProyecto'])) {
     // Mover el archivo a la carpeta de destino
     if ($respuesta) {
         echo "<script>alert('El archivo se ha guardado correctamente.');</script>";
-        header("Location: ../Interfaces/index.php?success=true");
+        header("Location: ../Interfaces/inicio.php?idTrabajador=14&success=true");
     } else {
         echo "Error al mover el archivo a la carpeta de destino.";
     }

@@ -1,7 +1,7 @@
 <?php
 if (empty($_POST["oculto"]) || empty($_POST["nombre"]) || empty($_POST["telefono"]) || empty($_POST["usuario"]) || empty($_POST["apellido"]) || empty($_POST["puesto"]) || empty($_POST["contra"])) {
     echo "faltan datos";
-    header('Location: ./trabajadores.php?mensajeP=falta algun dato');
+    header('Location: ./trabajadores.php?mensajeP=faltaalgundato&idTrabajador=14');
     exit();
 }
 
@@ -19,10 +19,10 @@ $sentencia = $conexion->prepare("INSERT INTO trabajador(nombreTrab,apellidoTrab,
 $resultado = $sentencia->execute([$nombreTrab, $apellidoTrab, $telefono, $puesto,$usuario,$contra]);
 
 if ($resultado == TRUE) {
-    header('Location: ./trabajadores.php?mensajeP=trabajador registrado');
+    header('Location: ./trabajadores.php?mensajeP=trabajadorregistrado&idTrabajador=14');
     exit();
 } else {
-    header('Location: ./trabajadores.php?mensajeP=error');
+    header('Location: ./trabajadores.php?mensajeP=error&idTrabajador=14');
     exit();
 }
 ?>

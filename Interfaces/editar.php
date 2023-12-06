@@ -1,3 +1,40 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "cfe";
+
+$conexion = new mysqli($servername, $username, $password, $database);
+
+if ($conexion->connect_error) {
+    die("Conexión fallida: " . $conexion->connect_error);
+}
+
+// Verifica si se proporciona el ID del trabajador en la URL
+if (isset($_GET['idTrabajador'])) {
+    $idTrabajador = $_GET['idTrabajador'];
+
+    // Consulta para obtener los detalles del trabajador específico
+    $sql = "SELECT idTrabajador, nombreTrab, apellidoTrab, telefono, puesto, usuario FROM trabajador WHERE idTrabajador = $idTrabajador";
+    $result = $conexion->query($sql);
+
+    if ($result->num_rows > 0) {
+        $trabajador = $result->fetch_assoc();
+        $nombre = $trabajador['nombreTrab'];
+        $apellido = $trabajador['apellidoTrab'];
+        $puesto = $trabajador['puesto'];
+    } else {
+        // Manejar el caso donde no se encuentra el trabajador con el ID proporcionado
+        $usuario = "Trabajador no encontrado";
+    }
+} else {
+    // Manejar el caso donde no se proporciona el ID del trabajador en la URL
+    $usuario = "ID de trabajador no especificado";
+}
+
+$conexion->close();
+?>
+
 <div class="modal fade" id="editar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -60,12 +97,13 @@ function editarProyecto() {
     var proyectoSelect = document.getElementById("proyecto");
     var proyectoSeleccionado = proyectoSelect.value;
 
+    var idTrabajador = <?php echo json_encode($idTrabajador); ?>;
+
     if (!proyectoSeleccionado) {
         alert("Por favor, seleccione un proyecto válido antes de editar.");
     } else {
         // Redirige al usuario a la página de edición con la ID del proyecto seleccionado
-        window.location.href = './editar_proyecto.php?id=' + proyectoSeleccionado;
-        //window.location.href = './editar_proyecto.php?id=' + proyectoSeleccionado + '&idTrabajador=' + $idTrabajador;
+        window.location.href = './editar_proyecto.php?id=' + proyectoSeleccionado + '&idTrabajador=' + idTrabajador;
     }
 }
 </script>

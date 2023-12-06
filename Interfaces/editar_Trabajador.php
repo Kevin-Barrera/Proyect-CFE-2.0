@@ -8,7 +8,7 @@
 </head>
 <?php
 if (!isset($_GET['idTrabajador'])) {
-    header('Location: ./trabajadores.php?mensajeP=error');
+    header('Location: ./trabajadores.php?mensajeP=error&idTrabajador=14');
     exit();
 }
 $conexion = conectarBD();
@@ -41,7 +41,6 @@ function conectarBD()
     }
 }
 ?>
-
 
 <body class="sb-nav-fixed">
     <div class="container mt-5">
@@ -80,15 +79,7 @@ function conectarBD()
                 <button type="submit" class="btn btn-primary">Actualizar Registro</button>
                 <a href="./trabajadores.php" class="btn btn-primary">Regresar</a>
             </div>
-
-
-
-
-
-
         </form>
-
-
     </div>
 
 </body>
