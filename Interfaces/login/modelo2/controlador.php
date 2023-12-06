@@ -14,11 +14,16 @@ if (!empty($_POST["btningresar"])) {
             die("La conexión falló: " . $conexion->connect_error);
         }
 
-        $sql = "SELECT * FROM trabajador WHERE usuario='$usuario' AND contra='$clave'";
+        $sql = "SELECT idTrabajador FROM trabajador WHERE usuario='$usuario' AND contra='$clave'";
         $resultado = $conexion->query($sql);
 
         if ($resultado->num_rows > 0) {
-            header("location: inicio.php");
+            // Obtiene el ID del trabajador
+            $fila = $resultado->fetch_assoc();
+            $idTrabajador = $fila['idTrabajador'];
+
+            // Redirige a inicio.php con la ID del trabajador en la URL
+            header("location: inicio.php?idTrabajador=$idTrabajador");
         } else {
             echo '<div class="alert alert-danger">ACCESO DENEGADO</div>';
         }
