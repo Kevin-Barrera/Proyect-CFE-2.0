@@ -29,6 +29,8 @@ require_once './header.php';
     if ($resultado_proyecto->num_rows > 0) {
         $proyecto = $resultado_proyecto->fetch_assoc();
 
+        echo '<div id="carga" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); text-align: center; padding-top: 20%;">
+                <p>Cargando...</p></div>';
         echo "<p><strong>ID del Proyecto:</strong> " . $proyecto["idProyecto"] . "</p>";
         echo "<p><strong>Nombre del Proyecto:</strong> " . $proyecto["nomProyecto"] . "</p>";
         echo "<p><strong>Descripción:</strong> " . $proyecto["descProyecto"] . "</p>";
@@ -73,56 +75,90 @@ require_once './header.php';
 
 </div>
 <script>
-    function guardarCambios($tipo) {
+    function mostrarCarga() {
+        Swal.fire({
+            title: 'Cargando',
+            html: 'Por favor, espera...',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            },
+        });
+    }
+
+    function ocultarCarga() {
+        Swal.close();
+    }
+
+    function guardarCambios(tipo) {
+        mostrarCarga();
         // Obtener la tabla actualizada
         var table = document.getElementById('excelTable');
 
-        // Convertir la tabla a una hoja de cálculo
-        var updatedData = XLSX.utils.table_to_sheet(table);
+        // Obtener el ID del proyecto
+        var idProyecto = '<?php echo $idProyecto; ?>';
 
-        // Crear un libro y agregar la hoja de cálculo actualizada
-        var wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, updatedData, "Sheet1");
-
-        // Obtener el nombre del archivo original del campo idArchivo del proyecto
-        if ($tipo == 1) {
-            var idArchivo = '<?php echo $proyecto["idArchivo1"]; ?>'; // Asegúrate de imprimir correctamente el valor en PHP
-        } else if ($tipo == 2) {
-            var idArchivo = '<?php echo $proyecto["idArchivo2"]; ?>';
-        }
-        // console.log("ID Archivo:", idArchivo); // Agrega esta línea para verificar en la consola
-
-        // Convertir el libro a una cadena binaria
-        var wbout = XLSX.write(wb, {
-            bookType: 'xlsx',
-            bookSST: true,
-            type: 'binary'
-        });
-
-        // Convertir la cadena binaria a un Blob
-        var blob = new Blob([s2ab(wbout)], {
-            type: 'application/octet-stream'
-        });
-
-        // Crear un FormData para enviar el blob al servidor
+        // Crear un FormData para enviar los datos al servidor
         var formData = new FormData();
-        formData.append('file', blob, idArchivo + '.xlsx');
+        formData.append('idProyecto', idProyecto);
+        formData.append('tipo', tipo);
+
+        // Obtener las celdas modificadas
+        var celdasModificadas = obtenerCeldasModificadas(table);
+
+        // Agregar las celdas modificadas al FormData
+        for (var i = 0; i < celdasModificadas.length; i++) {
+            formData.append('celda[' + celdasModificadas[i].fila + '][' + celdasModificadas[i].columna + ']', celdasModificadas[i].valor);
+        }
 
         // Enviar una solicitud al servidor
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'guardar_archivo.php', true);
+        xhr.open('POST', 'guardarCambios.php', true);
 
         xhr.onload = function() {
+            ocultarCarga();
             if (xhr.status === 200) {
-                alert("Cambios guardados con éxito en el archivo.");
+                alert("Cambios guardados con éxito en el archivo y la base de datos.");
+                location.reload(true);
             } else {
-                alert("Error al guardar cambios en el archivo.");
+                alert("Error al guardar cambios en el archivo o la base de datos.");
             }
         };
 
+        // Enviar FormData como cuerpo de la solicitud
         xhr.send(formData);
     }
+
+    function obtenerCeldasModificadas(table) {
+        var celdasModificadas = [];
+
+        // Recorrer las filas de la tabla
+        for (var i = 0, row; row = table.rows[i]; i++) {
+            // Recorrer las celdas de cada fila
+            for (var j = 0, col; col = row.cells[j]; j++) {
+                // Obtener el valor de la celda
+                var cellValue = col.innerText;
+
+                // Obtener el valor original de la celda
+                var originalValue = col.getAttribute('data-original-value');
+
+                // Agregar la información de la celda al array sin verificar cambios en este caso
+                celdasModificadas.push({
+                    fila: i,
+                    columna: j,
+                    valor: cellValue
+                });
+
+                // Actualizar el valor original de la celda
+                col.setAttribute('data-original-value', cellValue);
+            }
+        }
+
+        return celdasModificadas;
+    }
 </script>
+
 <!-- Agrega este bloque de script al final de tu HTML -->
 <?php
 require_once './footer.php';
