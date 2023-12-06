@@ -34,6 +34,7 @@ if (isset($_GET['eliminar_proyecto'])) {
     $stmt_eliminar->close();
 }
 
+
 // Consulta SQL para seleccionar todos los proyectos
 $sql = "SELECT * FROM proyecto";
 $resultado = $conexion->query($sql);
@@ -60,7 +61,7 @@ if ($resultado->num_rows > 0) {
         echo "<td>" . $fila["idProyecto"] . "</td>";
         echo "<td>" . $fila["nomProyecto"] . "</td>";
         echo "<td>" . $fila["descProyecto"] . "</td>";
-        echo "<td><a href='./detalle_proyecto.php?idProyecto=" . $fila["idProyecto"] . "&tipo=1'>" . $fila["rutaArc1"] . "</a></td>";
+        echo "<td><a href='./detalle_proyecto.php?idTrabajador=14&idProyecto=" . $fila["idProyecto"] . "&tipo=1'>" . $fila["rutaArc1"] . "</a></td>";
         
         // Mostrar el botón "Generar" solo si no hay valor en idArchivo1
         if (empty($fila["rutaArc1"]) && empty($fila["rutaArc2"])) {
@@ -85,11 +86,14 @@ if ($resultado->num_rows > 0) {
 ?>
 
 <script>
+
+var idTrabajador = <?php echo $idTrabajador; ?>;
+    
 function eliminarProyecto(idProyecto) {
     if (confirm("¿Estás seguro de que quieres eliminar este proyecto?")) {
         window.location.href = "./proyectos.php?eliminar_proyecto=" + idProyecto;
     }
-    window.location.href = "./proyectos.php";
+    window.location.href = "./proyectos.php?idTrabajador=" + idTrabajador;
 }
 
 function generarReporte(idProyecto) {
@@ -100,7 +104,7 @@ function generarReporte(idProyecto) {
     xhr.onload = function() {
         if (xhr.status === 200) {
             alert("Reporte generado con éxito.");
-            window.location.href = "./proyectos.php";
+            window.location.href = "./proyectos.php?idTrabajador=" + idTrabajador;
         } else {
             alert("Error al generar el reporte.");
         }

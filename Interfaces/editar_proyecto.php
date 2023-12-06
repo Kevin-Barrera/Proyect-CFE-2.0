@@ -45,9 +45,12 @@ if (isset($_POST['guardarCambios'])) {
     guardarCambiosProyecto($id_proyecto, $nombreProyecto, $descripcionProyecto, $zonaProyecto, $obraProyecto);
 
     // Redirige a la página de éxito o a donde desees después de guardar los cambios.
-    echo "<script>alert('Los datos se han actualizado correctamente.');
-    window.location.href = './index.php';</script>";
-    //header("Location: index.php?success=true");
+    echo "<script>
+    alert('Los datos se han actualizado correctamente.');
+    var idTrabajador = $idTrabajador;
+    window.location.href = './inicio.php?&idTrabajador=' + idTrabajador;
+    </script>";
+    //header("Location: inicio.php?success=true");
 }
 
 // Obtén los datos del proyecto
@@ -59,8 +62,8 @@ $datos_proyecto = obtenerDatosDelProyecto($id_proyecto);
         <div class="col-md-12">
             <h1 class="mb-4">Editar archivo</h1>
             <!-- Formulario para editar el proyecto con los datos obtenidos -->
-            <form action="editar_proyecto.php?id=<?php echo $id_proyecto; ?>" method="post" enctype="multipart/form-data">
-                <!-- Campos para mostrar y editar los datos del proyecto -->
+            <form action="editar_proyecto.php?id=<?php echo $id_proyecto; ?>&idTrabajador=<?php echo $idTrabajador;?>" method="post" enctype="multipart/form-data">
+                <!-- Campos para mostrar y editar los datos del proyecto --> 
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre del Proyecto:</label>
                     <input type="text" name="nombre" value="<?php echo $datos_proyecto['nomProyecto']; ?>" class="form-control">
@@ -98,8 +101,11 @@ $datos_proyecto = obtenerDatosDelProyecto($id_proyecto);
 </div>
 
 <script>
+
+var idTrabajador = <?php echo $idTrabajador; ?>;
+
     function cancelar() {
-        window.location.href = "./index.php";
+        window.location.href = "./inicio.php?idTrabajador=" + idTrabajador;
     }
 </script>
 

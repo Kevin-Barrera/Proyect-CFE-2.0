@@ -3,41 +3,6 @@ require_once './header.php';
 include "../php/bd.php";
 ?>
 
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "cfe";
-
-$conexion = new mysqli($servername, $username, $password, $database);
-
-if ($conexion->connect_error) {
-    die("Conexión fallida: " . $conexion->connect_error);
-}
-
-// Verifica si se proporciona el ID del trabajador en la URL
-if (isset($_GET['idTrabajador'])) {
-    $idTrabajador = $_GET['idTrabajador'];
-
-    // Consulta para obtener los detalles del trabajador específico
-    $sql = "SELECT idTrabajador, nombreTrab, apellidoTrab, telefono, puesto, usuario FROM trabajador WHERE idTrabajador = $idTrabajador";
-    $result = $conexion->query($sql);
-
-    if ($result->num_rows > 0) {
-        $trabajador = $result->fetch_assoc();
-        $usuario = $trabajador['usuario'];
-    } else {
-        // Manejar el caso donde no se encuentra el trabajador con el ID proporcionado
-        $usuario = "Trabajador no encontrado";
-    }
-} else {
-    // Manejar el caso donde no se proporciona el ID del trabajador en la URL
-    $usuario = "ID de trabajador no especificado";
-}
-
-$conexion->close();
-?>
-
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -55,7 +20,7 @@ $conexion->close();
 
 <script>
     function cancelar() {
-        window.location.href = "./index.php";
+        window.location.href = "./index.php"; .W
     }
 </script>
 
