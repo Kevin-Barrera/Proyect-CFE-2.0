@@ -16,9 +16,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $idProyecto = $_POST["idProyecto"];
     $tipo = $_POST["tipo"];
+    $celdas = $_POST["celda"];
+
+    echo "ID del Proyecto: " . $idProyecto . "<br>";
+    echo "Tipo: " . $tipo . "<br>";
+    
+    echo "Datos de las celdas: <pre>";
+    print_r($celdas);
+    echo "</pre>";
     
     // Verificar si la clave 'celda' está presente y es un array
-    $celdas = isset($_POST["celda"]) && is_array($_POST["celda"]) ? $_POST["celda"] : [];
+    // $celdas = isset($_POST["celda"]) && is_array($_POST["celda"]) ? $_POST["celda"] : [];
 
     $sql = "SELECT idArchivo1, idArchivo2 FROM proyecto WHERE idProyecto = ?";
     $stmt = $conexion->prepare($sql);
@@ -42,8 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Aplicar los cambios a las celdas
     foreach ($celdas as $fila => $columnas) {
         foreach ($columnas as $columna => $valor) {
-            // Asegúrate de que estás trabajando con celdas válidas
-            $cellAddress = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($columna + 1) . $fila;
+            $cellAddress = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($columna + 1) . $fila + 1;
             $worksheet->setCellValue($cellAddress, $valor);
         }
     }

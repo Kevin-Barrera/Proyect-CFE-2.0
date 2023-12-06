@@ -28,6 +28,7 @@ require_once './header.php';
 
     if ($resultado_proyecto->num_rows > 0) {
         $proyecto = $resultado_proyecto->fetch_assoc();
+        
 
         echo '<div id="carga" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); text-align: center; padding-top: 20%;">
                 <p>Cargando...</p></div>';
@@ -102,14 +103,18 @@ require_once './header.php';
         // Crear un FormData para enviar los datos al servidor
         var formData = new FormData();
         formData.append('idProyecto', idProyecto);
-        formData.append('tipo', tipo);
+        formData.append('tipo', tipo); // Agregar tipo también
 
-        // Obtener las celdas modificadas
-        var celdasModificadas = obtenerCeldasModificadas(table);
+        // Recorrer las filas de la tabla
+        for (var i = 0, row; row = table.rows[i]; i++) {
+            // Recorrer las celdas de cada fila
+            for (var j = 0, col; col = row.cells[j]; j++) {
+                // Obtener el valor de la celda
+                var cellValue = col.innerText;
 
-        // Agregar las celdas modificadas al FormData
-        for (var i = 0; i < celdasModificadas.length; i++) {
-            formData.append('celda[' + celdasModificadas[i].fila + '][' + celdasModificadas[i].columna + ']', celdasModificadas[i].valor);
+                // Agregar el valor y la posición de la celda al FormData
+                formData.append('celda[' + i + '][' + j + ']', cellValue);
+            }
         }
 
         // Enviar una solicitud al servidor
@@ -117,8 +122,8 @@ require_once './header.php';
         xhr.open('POST', 'guardarCambios.php', true);
 
         xhr.onload = function() {
-            ocultarCarga();
             if (xhr.status === 200) {
+                ocultarCarga();
                 alert("Cambios guardados con éxito en el archivo y la base de datos.");
                 location.reload(true);
             } else {
@@ -126,7 +131,6 @@ require_once './header.php';
             }
         };
 
-        // Enviar FormData como cuerpo de la solicitud
         xhr.send(formData);
     }
 

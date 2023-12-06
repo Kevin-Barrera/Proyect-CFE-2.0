@@ -46,16 +46,16 @@ $conexion->close();
                             <?php if (!empty($proyecto["rutaArc1"])) { ?>
                                 <?php echo $proyecto["rutaArc1"]; ?>
                                 <br>
-                                <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo1']; ?>', 1)">Eliminar</button>
-                                <a href="../php/descargar.php?archivo=<?php echo $proyecto["rutaArc1"]; ?>" class="btn btn-primary">Descargar</a>
+                                <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo1']; ?>', 1)"><i class="fas fa-trash-alt"></i></button>
+                                <a href="../php/descargar.php?archivo=<?php echo $proyecto["rutaArc1"]; ?>" class="btn btn-primary"><i class="fas fa-download"></i></a>
                             <?php } ?>
                         </td>
                         <td>
                             <?php if (!empty($proyecto["rutaArc2"])) { ?>
                                 <?php echo $proyecto["rutaArc2"]; ?>
                                 <br>
-                                <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo2']; ?>', 2)">Eliminar</button>
-                                <a href="../php/descargar.php?archivo=<?php echo $proyecto["rutaArc2"]; ?>" class="btn btn-primary">Descargar</a>
+                                <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo2']; ?>', 2)"><i class="fas fa-trash-alt"></i></button>
+                                <a href="../php/descargar.php?archivo=<?php echo $proyecto["rutaArc2"]; ?>" class="btn btn-primary"><i class="fas fa-download"></i></a>
                             <?php } ?>
                         </td>
                     </tr>
