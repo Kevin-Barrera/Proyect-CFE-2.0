@@ -39,11 +39,32 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
-                <div class="sidebar-brand-icon rotate-n-15">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="inicio.php">
+                <div class="sidebar-brand-text mx-3">Panel de Administración</div>
+            </a>
 
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Heading -->
+            <br>
+            <div class="sidebar-heading">
+                Usuario
+            </div>
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="inicio.php">
+                <div class="sidebar-brand-icon">
+                    <!-- Puedes agregar una imagen de perfil aquí -->
+                    <img src="login/img2/avatar.svg" alt="Perfil" style="width: 50px; height: 50px; border-radius: 50%;">
                 </div>
-                <div class="sidebar-brand-text mx-3">Administrador</div>
+                <div class="sidebar-brand-text mx-3">
+                    <!-- Agrega el nombre del usuario -->
+                    <span>Axel</span>
+                    <br>
+                    <!-- Agrega el puesto del usuario -->
+                    <span style="font-size: smaller; font-weight: lighter;">Trabajador</span>
+                </div>
             </a>
 
             <!-- Divider -->
@@ -51,7 +72,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.php">
+                <a class="nav-link" href="inicio.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
