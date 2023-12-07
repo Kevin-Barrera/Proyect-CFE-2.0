@@ -62,7 +62,7 @@ if (isset($_GET['idProyecto'])) {
             $stmt->close();
     
             // Establecer la fecha actual en la celda F5
-            $worksheet->setCellValue('F5', $fechaActual);
+            $worksheet->setCellValue('F3', $fechaActual);
             $worksheet->setCellValue('C5', $zona);
             $worksheet->setCellValue('C6', $obra);
             $worksheet->setCellValue('H3', "'[" . $idArchivo1 . ".xlsx]");

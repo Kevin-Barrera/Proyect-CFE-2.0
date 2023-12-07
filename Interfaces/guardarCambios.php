@@ -20,11 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     echo "ID del Proyecto: " . $idProyecto . "<br>";
     echo "Tipo: " . $tipo . "<br>";
-    
+
     echo "Datos de las celdas: <pre>";
     print_r($celdas);
     echo "</pre>";
-    
+
     // Verificar si la clave 'celda' está presente y es un array
     // $celdas = isset($_POST["celda"]) && is_array($_POST["celda"]) ? $_POST["celda"] : [];
 
@@ -46,20 +46,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Obtener la hoja activa
     $worksheet = $spreadsheet->getActiveSheet();
-
+    
     // Aplicar los cambios a las celdas
-    foreach ($celdas as $fila => $columnas) {
-        foreach ($columnas as $columna => $valor) {
-            $cellAddress = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($columna + 1) . $fila + 1;
-            $worksheet->setCellValue($cellAddress, $valor);
+        foreach ($celdas as $fila => $columnas) {
+            foreach ($columnas as $columna => $valor) {
+                $cellAddress = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($columna + 1) . ($fila + 1);
+                $worksheet->setCellValue($cellAddress, $valor);
+                // echo "Modificando celda en dirección: " . $cellAddress . " con valor: " . $valor . "<br>";
+            }
         }
-    }
-
+    
     // Guardar el archivo actualizado
     $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
 
     // Intentar guardar el archivo
     try {
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save($rutaArchivo);
         echo "Cambios aplicados y archivo guardado con éxito.";
     } catch (\PhpOffice\PhpSpreadsheet\Writer\Exception $e) {
@@ -68,4 +70,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo "Solicitud no válida.";
 }
-?>

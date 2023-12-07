@@ -125,7 +125,7 @@ require_once './header.php';
             if (xhr.status === 200) {
                 ocultarCarga();
                 alert("Cambios guardados con éxito en el archivo y la base de datos.");
-                location.reload(true);
+                // location.reload(true);
             } else {
                 alert("Error al guardar cambios en el archivo o la base de datos.");
             }
