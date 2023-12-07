@@ -38,8 +38,9 @@ if (isset($_GET['eliminar_proyecto'])) {
 // Consulta SQL para seleccionar todos los proyectos
 $sql = "SELECT * FROM proyecto";
 $resultado = $conexion->query($sql);
-
-echo "<div class='container my-5'><div class='table-responsive'>"; 
+echo '<div id="carga" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); text-align: center; padding-top: 20%;">
+                <p>Cargando...</p></div>';
+echo "<div class='container my-5'><div class='table-responsive'>";
 echo "<h1>Proyectos registrados</h1>";
 
 // Comprobar si se encontraron resultados
@@ -62,7 +63,7 @@ if ($resultado->num_rows > 0) {
         echo "<td>" . $fila["nomProyecto"] . "</td>";
         echo "<td>" . $fila["descProyecto"] . "</td>";
         echo "<td><a href='./detalle_proyecto.php?idTrabajador=14&idProyecto=" . $fila["idProyecto"] . "&tipo=1'>" . $fila["rutaArc1"] . "</a></td>";
-        
+
         // Mostrar el botón "Generar" solo si no hay valor en idArchivo1
         if (empty($fila["rutaArc1"]) && empty($fila["rutaArc2"])) {
             echo "<td></td>";
@@ -82,36 +83,53 @@ if ($resultado->num_rows > 0) {
     echo "No se encontraron proyectos en la base de datos.";
 }
 
-    echo "</div></div>";
+echo "</div></div>";
 ?>
 
 <script>
+    var idTrabajador = <?php echo $idTrabajador; ?>;
 
-var idTrabajador = <?php echo $idTrabajador; ?>;
-    
-function eliminarProyecto(idProyecto) {
-    if (confirm("¿Estás seguro de que quieres eliminar este proyecto?")) {
-        window.location.href = "./proyectos.php?eliminar_proyecto=" + idProyecto;
-    }
-    window.location.href = "./proyectos.php?idTrabajador=" + idTrabajador;
-}
-
-function generarReporte(idProyecto) {
-    // Aquí haces la llamada AJAX al servidor para generar el reporte
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', './generar_reporte.php?idProyecto=' + idProyecto, true);
-    console.log('');
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            alert("Reporte generado con éxito.");
-            window.location.href = "./proyectos.php?idTrabajador=" + idTrabajador;
-        } else {
-            alert("Error al generar el reporte.");
+    function eliminarProyecto(idProyecto) {
+        if (confirm("¿Estás seguro de que quieres eliminar este proyecto?")) {
+            window.location.href = "./proyectos.php?eliminar_proyecto=" + idProyecto;
         }
-    };
+        window.location.href = "./proyectos.php?idTrabajador=" + idTrabajador;
+    }
 
-    xhr.send();
-}
+    function mostrarCarga() {
+        Swal.fire({
+            title: 'Cargando',
+            html: 'Por favor, espera...',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            },
+        });
+    }
+
+    function ocultarCarga() {
+        Swal.close();
+    }
+
+    function generarReporte(idProyecto) {
+        mostrarCarga();
+        // Aquí haces la llamada AJAX al servidor para generar el reporte
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', './generar_reporte.php?idProyecto=' + idProyecto, true);
+        console.log('');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                ocultarCarga();
+                alert("Reporte generado con éxito.");
+                window.location.href = "./proyectos.php?idTrabajador=" + idTrabajador;
+            } else {
+                alert("Error al generar el reporte.");
+            }
+        };
+
+        xhr.send();
+    }
 </script>
 
 <?php require_once './footer.php'; ?>

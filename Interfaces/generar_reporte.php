@@ -52,10 +52,20 @@ if (isset($_GET['idProyecto'])) {
     
             // Obtener la fecha actual en el formato dd/mm/aaaa
             $fechaActual = date('d/m/Y');
+
+            $sql = "SELECT idArchivo1, zona, obra FROM proyecto WHERE idProyecto = ?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bind_param("i", $idProyecto);
+            $stmt->execute();
+            $stmt->bind_result($idArchivo1, $zona, $obra);
+            $stmt->fetch();
+            $stmt->close();
     
             // Establecer la fecha actual en la celda F5
             $worksheet->setCellValue('F5', $fechaActual);
-            $worksheet->setCellValue('D11', 'Popo');
+            $worksheet->setCellValue('C5', $zona);
+            $worksheet->setCellValue('C6', $obra);
+            $worksheet->setCellValue('H3', "'[" . $idArchivo1 . ".xlsx]");
     
             // Guardar el archivo actualizado
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
