@@ -10,10 +10,27 @@ include "../php/bd.php";
             <center>
                 <img src="login/img2/avatar.svg" alt="Perfil" style="width: 200px; height: 200px; border-radius: 50%;">
             </center>
-            <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre del Usuario:</label>
-                <p><?php echo $usuario; ?></p>
-            </div>
+            <style>
+    .mb-3 {
+        text-align: center;
+    }
+
+    .form-label {
+        display: block;
+    }
+
+    p {
+        display: inline-block;
+        background-color: #e0e0e0; /* Puedes ajustar el color de fondo según tus preferencias */
+        padding: 10px;
+        border-radius: 10px; /* Ajusta el valor según tus preferencias */
+    }
+</style>
+
+<div class="mb-3">
+    <label for="nombre" class="form-label">Nombre del Usuario:</label>
+    <p><?php echo $nombreTrab .' '. $apellidoTrab ?></p>
+</div>
         </div>
     </div>
 </div>

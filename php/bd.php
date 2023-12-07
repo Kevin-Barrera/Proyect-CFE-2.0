@@ -21,6 +21,9 @@ if (isset($_GET['idTrabajador'])) {
     if ($result->num_rows > 0) {
         $trabajador = $result->fetch_assoc();
         $usuario = $trabajador['usuario'];
+        $nombreTrab = $trabajador['nombreTrab'];
+        $apellidoTrab = $trabajador['apellidoTrab'];
+        $idTrabajador = $trabajador['idTrabajador'];
     } else {
         // Manejar el caso donde no se encuentra el trabajador con el ID proporcionado
         $usuario = "Trabajador no encontrado";
