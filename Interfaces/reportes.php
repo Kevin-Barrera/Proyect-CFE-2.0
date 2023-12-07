@@ -26,7 +26,7 @@ $conexion->close();
 ?>
 
 <div class="container my-5">
-    <h1>Proyectos</h1>
+    <h1>Reportes registrados</h1>
     <div class="table-responsive">
         <table id="tabla" class="table table-striped table-bordered">
             <thead class="thead-dark">
@@ -47,7 +47,7 @@ $conexion->close();
                                 <?php echo $proyecto["rutaArc1"]; ?>
                                 <br>
                                 <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo1']; ?>', 1)"><i class="fas fa-trash-alt"></i></button>
-                                <a href="../php/descargar.php?archivo=<?php echo $proyecto["rutaArc1"]; ?>" class="btn btn-primary"><i class="fas fa-download"></i></a>
+                                <a href="../php/descargar.php?idArchivo=<?php echo $proyecto['idArchivo1']; ?>" class="btn btn-primary"><i class="fas fa-download"></i></a>
                             <?php } ?>
                         </td>
                         <td>
@@ -55,7 +55,7 @@ $conexion->close();
                                 <?php echo $proyecto["rutaArc2"]; ?>
                                 <br>
                                 <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo2']; ?>', 2)"><i class="fas fa-trash-alt"></i></button>
-                                <a href="../php/descargar.php?archivo=<?php echo $proyecto["rutaArc2"]; ?>" class="btn btn-primary"><i class="fas fa-download"></i></a>
+                                <a href="../php/descargar.php?idArchivo=<?php echo $proyecto['idArchivo2']; ?>" class="btn btn-primary"><i class="fas fa-download"></i></a>
                             <?php } ?>
                         </td>
                     </tr>
