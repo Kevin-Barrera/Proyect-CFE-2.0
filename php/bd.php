@@ -24,6 +24,8 @@ if (isset($_GET['idTrabajador'])) {
         $nombreTrab = $trabajador['nombreTrab'];
         $apellidoTrab = $trabajador['apellidoTrab'];
         $idTrabajador = $trabajador['idTrabajador'];
+        $telefono = $trabajador['telefono'];
+        $puesto = $trabajador['puesto'];
     } else {
         // Manejar el caso donde no se encuentra el trabajador con el ID proporcionado
         $usuario = "Trabajador no encontrado";

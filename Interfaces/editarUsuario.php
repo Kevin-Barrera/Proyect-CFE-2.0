@@ -31,14 +31,32 @@ include "../php/bd.php";
     <label for="nombre" class="form-label">Nombre del Usuario:</label>
     <p><?php echo $nombreTrab .' '. $apellidoTrab ?></p>
 </div>
+
+<div class="mb-3">
+    <label for="nombre" class="form-label">Telefono:</label>
+    <p><?php echo $telefono ?></p>
+</div>
+
+<div class="mb-3">
+    <label for="nombre" class="form-label">Puesto:</label>
+    <p><?php echo $puesto ?></p>
+</div>
         </div>
     </div>
 </div>
 
-<script>
-    function cancelar() {
-        window.location.href = "./index.php"; .W
+<style>
+    .cerrar-sesion-btn {
+        background-color: #ff0000; /* Color rojo, puedes ajustar según tus preferencias */
+        color: #fff; /* Color del texto */
+        padding: 10px 20px; /* Ajusta el padding según tus preferencias */
+        border: none;
+        border-radius: 5px; /* Ajusta el radio de las esquinas según tus preferencias */
+        cursor: pointer;
     }
-</script>
+</style>
+
+<center><a href="index.php" class="cerrar-sesion-btn">Cerrar Sesión</a></center>
+<br>
 
 <?php require_once './footer.php'; ?>
