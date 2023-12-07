@@ -8,53 +8,79 @@ include "../php/bd.php";
         <div class="col-md-12">
             <h1 class="mb-4">Usuario</h1>
             <center>
-                <img src="login/img2/avatar.svg" alt="Perfil" style="width: 200px; height: 200px; border-radius: 50%;">
+            <img style="max-width: 10%;" src="login/img2/avatar.svg" alt="Perfil">
             </center>
+
             <style>
-    .mb-3 {
-        text-align: center;
-    }
+                body {
+                    font-family: 'Arial', sans-serif;
+                    background-color: #f8f8f8;
+                    color: #333;
+                }
 
-    .form-label {
-        display: block;
-    }
+                .container {
+                    background-color: #fff;
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
 
-    p {
-        display: inline-block;
-        background-color: #e0e0e0; /* Puedes ajustar el color de fondo según tus preferencias */
-        padding: 10px;
-        border-radius: 10px; /* Ajusta el valor según tus preferencias */
-    }
-</style>
+                img {
+                    max-width: 100%;
+                    height: auto;
+                    border-radius: 50%;
+                    margin-bottom: 20px;
+                }
 
-<div class="mb-3">
-    <label for="nombre" class="form-label">Nombre del Usuario:</label>
-    <p><?php echo $nombreTrab .' '. $apellidoTrab ?></p>
-</div>
+                .mb-3 {
+                    text-align: center;
+                }
 
-<div class="mb-3">
-    <label for="nombre" class="form-label">Telefono:</label>
-    <p><?php echo $telefono ?></p>
-</div>
+                .form-label {
+                    display: block;
+                    font-weight: bold;
+                    margin-bottom: 5px;
+                }
 
-<div class="mb-3">
-    <label for="nombre" class="form-label">Puesto:</label>
-    <p><?php echo $puesto ?></p>
-</div>
+                p {
+                    display: inline-block;
+                    padding: 10px 200px;
+                    border-radius: 10px;
+                    margin: 0;
+                    background: linear-gradient(to right, #3498db, #2980b9); /* Cambia estos colores según tus preferencias */
+                    color: #fff; /* Texto blanco */
+                }
+
+                .cerrar-sesion-btn {
+                    background-color: #ff0000;
+                    color: #fff;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    text-decoration: none;
+                    display: inline-block;
+                    margin-top: 15px;
+                }
+            </style>
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre del Usuario:</label>
+                <p><?php echo $nombreTrab .' '. $apellidoTrab ?></p>
+            </div>
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Telefono:</label>
+                <p><?php echo $telefono ?></p>
+            </div>
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Puesto:</label>
+                <p><?php echo $puesto ?></p>
+            </div>
         </div>
     </div>
 </div>
-
-<style>
-    .cerrar-sesion-btn {
-        background-color: #ff0000; /* Color rojo, puedes ajustar según tus preferencias */
-        color: #fff; /* Color del texto */
-        padding: 10px 20px; /* Ajusta el padding según tus preferencias */
-        border: none;
-        border-radius: 5px; /* Ajusta el radio de las esquinas según tus preferencias */
-        cursor: pointer;
-    }
-</style>
 
 <center><a href="index.php" class="cerrar-sesion-btn">Cerrar Sesión</a></center>
 <br>
