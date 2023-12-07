@@ -62,7 +62,7 @@ if ($resultado->num_rows > 0) {
         echo "<td>" . $fila["idProyecto"] . "</td>";
         echo "<td>" . $fila["nomProyecto"] . "</td>";
         echo "<td>" . $fila["descProyecto"] . "</td>";
-        echo "<td><a href='./detalle_proyecto.php?idTrabajador=14&idProyecto=" . $fila["idProyecto"] . "&tipo=1'>" . $fila["rutaArc1"] . "</a></td>";
+        echo "<td><a href='./detalle_proyecto.php?idProyecto=" . $fila["idProyecto"] . "&tipo=1'>" . $fila["rutaArc1"] . "</a></td>";
 
         // Mostrar el botón "Generar" solo si no hay valor en idArchivo1
         if (empty($fila["rutaArc1"]) && empty($fila["rutaArc2"])) {
@@ -87,13 +87,11 @@ echo "</div></div>";
 ?>
 
 <script>
-    var idTrabajador = <?php echo $idTrabajador; ?>;
-
     function eliminarProyecto(idProyecto) {
         if (confirm("¿Estás seguro de que quieres eliminar este proyecto?")) {
             window.location.href = "./proyectos.php?eliminar_proyecto=" + idProyecto;
         }
-        window.location.href = "./proyectos.php?idTrabajador=" + idTrabajador;
+        window.location.href = "./proyectos.php";
     }
 
     function mostrarCarga() {
@@ -122,7 +120,7 @@ echo "</div></div>";
             if (xhr.status === 200) {
                 ocultarCarga();
                 alert("Reporte generado con éxito.");
-                window.location.href = "./proyectos.php?idTrabajador=" + idTrabajador;
+                window.location.href = "./proyectos.php";
             } else {
                 alert("Error al generar el reporte.");
             }

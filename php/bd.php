@@ -132,7 +132,7 @@ if (isset($_POST['crearProyecto'])) {
     // Mover el archivo a la carpeta de destino
     if ($respuesta) {
         echo "<script>alert('El archivo se ha guardado correctamente.');</script>";
-        header("Location: ../Interfaces/inicio.php?idTrabajador=14&success=true");
+        header("Location: ../Interfaces/index.php?success=true");
     } else {
         echo "Error al mover el archivo a la carpeta de destino.";
     }

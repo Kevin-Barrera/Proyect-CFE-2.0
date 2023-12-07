@@ -70,6 +70,6 @@ if (isset($_GET['idArchivo']) && isset($_GET['tipo'])) {
     }
 }
 
-header("Location: ../Interfaces/reportes.php?idTrabajador=14" . $idTrabajador);
+header("Location: ../Interfaces/reportes.php");
 exit();
 ?>

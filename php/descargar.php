@@ -1,6 +1,5 @@
 <?php
 
-echo '<script>console.log("popo1")</script>';
 // Verificar si se ha proporcionado un nombre de archivo
 if (isset($_GET['idArchivo'])) {
     echo '<script>console.log("popo3")</script>';
@@ -24,8 +23,8 @@ if (isset($_GET['idArchivo'])) {
         exit();
     }
 }
-echo '<script>console.log("popo2")</script>';
+
 // Si el archivo no existe, redireccionar a la página principal
-header("Location: ../Interfaces/reportes.php?idTrabajador=14" . $idTrabajador);
+header("Location: ../Interfaces/reportes.php");
 exit();
 ?>

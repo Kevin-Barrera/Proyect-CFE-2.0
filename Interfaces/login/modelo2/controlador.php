@@ -1,5 +1,7 @@
 <?php
+
 if (!empty($_POST["btningresar"])) {
+    echo '<script>console.log("popo2")</script>';
     if (empty($_POST["usuario"]) || empty($_POST["password"])) {
         echo '<div class="alert alert-danger">LOS CAMPOS ESTAN VACIOS</div>';
     } else {
@@ -22,8 +24,10 @@ if (!empty($_POST["btningresar"])) {
             $fila = $resultado->fetch_assoc();
             $idTrabajador = $fila['idTrabajador'];
 
-            // Redirige a inicio.php con la ID del trabajador en la URL
-            header("location: inicio.php?idTrabajador=$idTrabajador");
+            $_SESSION['idTrabajador'] = $idTrabajador;
+            
+            // Redirige a index.php
+            header("location: index.php");
         } else {
             echo '<div class="alert alert-danger">ACCESO DENEGADO</div>';
         }

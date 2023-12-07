@@ -103,7 +103,7 @@ function editarProyecto() {
         alert("Por favor, seleccione un proyecto válido antes de editar.");
     } else {
         // Redirige al usuario a la página de edición con la ID del proyecto seleccionado
-        window.location.href = './editar_proyecto.php?id=' + proyectoSeleccionado + '&idTrabajador=' + idTrabajador;
+        window.location.href = './editar_proyecto.php?id=' + proyectoSeleccionado;
     }
 }
 </script>
