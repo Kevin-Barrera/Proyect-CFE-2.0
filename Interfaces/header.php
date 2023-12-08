@@ -24,7 +24,7 @@ if (isset($_SESSION['idTrabajador'])) {
     $idTrabajador = $_SESSION['idTrabajador'];
 
     // Consulta para obtener los detalles del trabajador específico
-    $sql = "SELECT idTrabajador, nombreTrab, apellidoTrab, telefono, puesto, usuario FROM trabajador WHERE idTrabajador = $idTrabajador";
+    $sql = "SELECT idTrabajador, nombreTrab, apellidoTrab, telefono, puesto, usuario, imagen_perfil FROM trabajador WHERE idTrabajador = $idTrabajador";
     $result = $conexion->query($sql);
 
     if ($result->num_rows > 0) {
@@ -32,6 +32,8 @@ if (isset($_SESSION['idTrabajador'])) {
         $nombre = $trabajador['nombreTrab'];
         $apellido = $trabajador['apellidoTrab'];
         $puesto = $trabajador['puesto'];
+        $imagen_perfil = $trabajador['imagen_perfil'];
+        
     } else {
         // Manejar el caso donde no se encuentra el trabajador con el ID proporcionado
         $usuario = "Trabajador no encontrado";
@@ -106,8 +108,9 @@ $conexion->close();
                 <div class="sidebar-brand-icon">
                     <!-- Puedes agregar una imagen de perfil aquí -->
                     <br>
-                    <img src="login/img2/avatar.svg" alt="Perfil" style="width: 50px; height: 50px; border-radius: 50%;">
+                    <img src="<?php echo $imagen_perfil; ?>" alt="Perfil" style="width: 50px; height: 50px; border-radius: 50%;">
                 </div>
+
                 <div class="sidebar-brand-text mx-3">
                     <!-- Agrega el nombre del usuario -->
                     <br>

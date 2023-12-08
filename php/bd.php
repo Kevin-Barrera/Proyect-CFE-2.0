@@ -15,7 +15,7 @@ if (isset($_GET['idTrabajador'])) {
     $idTrabajador = $_GET['idTrabajador'];
 
     // Consulta para obtener los detalles del trabajador específico
-    $sql = "SELECT idTrabajador, nombreTrab, apellidoTrab, telefono, puesto, usuario FROM trabajador WHERE idTrabajador = $idTrabajador";
+    $sql = "SELECT idTrabajador, nombreTrab, apellidoTrab, telefono, puesto, usuario, imagen_perfil FROM trabajador WHERE idTrabajador = $idTrabajador";
     $result = $conexion->query($sql);
 
     if ($result->num_rows > 0) {
@@ -26,6 +26,7 @@ if (isset($_GET['idTrabajador'])) {
         $idTrabajador = $trabajador['idTrabajador'];
         $telefono = $trabajador['telefono'];
         $puesto = $trabajador['puesto'];
+        $imagen_perfil = $trabajador['imagen_perfil'];
     } else {
         // Manejar el caso donde no se encuentra el trabajador con el ID proporcionado
         $usuario = "Trabajador no encontrado";
