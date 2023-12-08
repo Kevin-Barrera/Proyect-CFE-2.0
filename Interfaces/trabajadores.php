@@ -1,29 +1,5 @@
 <?php require_once './header.php'; ?>
-
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "cfe";
-
-$conexion = new mysqli($servername, $username, $password, $database);
-
-if ($conexion->connect_error) {
-    die("Conexión fallida: " . $conexion->connect_error);
-}
-
-$sql = "SELECT idTrabajador, nombreTrab, apellidoTrab, telefono, puesto, usuario FROM trabajador";
-$result = $conexion->query($sql);
-
-$trabajadores = array();
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $trabajadores[] = $row;
-    }
-}
-
-$conexion->close();
-?>
+<?php require_once '../php/conexion.php' ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -136,41 +112,81 @@ $conexion->close();
         <!----- Fin alertas----->
 
         <h1>Trabajadores</h1>
-        <div class="table-responsive">
-            <table id="tabla" class="table table-striped table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Teléfono</th>
-                        <th>Puesto</th>
-                        <th>Usuario</th>
-                        <th>Opciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($trabajadores as $trabajador) { ?>
-                        <tr>
-                            <td><?php echo $trabajador["idTrabajador"]; ?></td>
-                            <td><?php echo $trabajador["nombreTrab"]; ?></td>
-                            <td><?php echo $trabajador["apellidoTrab"]; ?></td>
-                            <td><?php echo $trabajador["telefono"]; ?></td>
-                            <td><?php echo $trabajador["puesto"]; ?></td>
-                            <td><?php echo $trabajador["usuario"]; ?></td>
-                            <td>
-                                <a href="./eliminarTrabajador.php?idTrabajador=<?php echo $trabajador["idTrabajador"]; ?>" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este trabajador?')">Eliminar</a>
-                                <a href="./editar_Trabajador.php?idTrabajador=<?php echo $trabajador["idTrabajador"]; ?>" class="btn btn-primary">Modificar</a>
-                                <?php  ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+
+        <div class="container py-4 text-center">
+            <div class="row g-4">
+                <div class="col-auto">
+                    <label for="num_registros" class="col-form-label">Mostrar:</label>
+                </div>
+                <div class="col-auto">
+                    <select name="num_registros" id="num_registros" class="form-select">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+
+                <div class="col-5"></div>
+
+                <div class="col-auto">
+                    <label for="campo" class="col-form-label">Buscar:</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" name="campo" id="campo" class="form-control">
+                </div>
+            </div>
+
+            <div class="row py-4">
+                <div class="col">
+                    <table id="tabla" class="table table-striped table-bordered">
+                        <thead class="thead-dark">
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Teléfono</th>
+                            <th>Puesto</th>
+                            <th>Usuario</th>
+                            <th>Opciones</th>
+                        </thead>
+                        <!-- El id del cuerpo de la tabla. -->
+                        <tbody id="content">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <br><br>
+
+
+
+        <script>
+            getData()
+
+            document.getElementById("campo").addEventListener("keyup", getData)
+            document.getElementById("num_registros").addEventListener("change", getData)
+            /* Peticion AJAX */
+            function getData() {
+                let input = document.getElementById("campo").value
+                let num_registros = document.getElementById("num_registros").value
+                let content = document.getElementById("content")
+
+                let url = "./trabajadores/loadTrab.php"
+                let formaData = new FormData()
+                formaData.append('campo', input)
+                formaData.append('registros', num_registros)
+
+                fetch(url, {
+                        method: "POST",
+                        body: formaData
+                    }).then(response => response.json())
+                    .then(data => {
+                        content.innerHTML = data
+                    }).catch(err => console.log(err))
+            }
+        </script>
+
+
         <h1>Agregar Trabajador</h1>
-        <form class="contact-form" method="POST" action="./registrarTrabajador.php">
+        <form class="contact-form" method="POST" action="./trabajadores/registrarTrabajador.php">
             <div>
                 <label for="nombre">Nombre: </label>
                 <input type="text" id="nombre" name="nombre" placeholder="Ingresa el nombre" required>
@@ -180,7 +196,7 @@ $conexion->close();
                 <input type="tel" id="telefono" name="telefono" placeholder="Ingresa el Telefono" maxlength="10" required>
             </div>
             <div>
-                
+
                 <label for="puesto">Puesto:</label>
                 <select id="puesto" name="puesto" required>
                     <option value="" disabled selected>Selecciona un puesto</option>
@@ -204,6 +220,9 @@ $conexion->close();
 
         </form>
     </div>
+    <!-- Bootstrap core JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
 </body>
 
 </html>

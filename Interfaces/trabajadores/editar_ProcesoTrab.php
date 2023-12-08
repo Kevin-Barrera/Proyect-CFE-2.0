@@ -15,9 +15,9 @@ $sentencia = $conexion->prepare("UPDATE trabajador SET nombreTrab = ?, apellidoT
 $resultado = $sentencia->execute([$nombreTrab,$apellidoTrab,$telefono,$puesto,$usuario,$contra,$idTrabajador]);
 
 if ($resultado == TRUE) {
-    header('Location: ./trabajadores.php?mensajeP=trabajadorregistrado');
+    header('Location: ../trabajadores.php?mensajeP=trabajador registrado');
 } else {
-    header('Location: ./trabajadores.php?mensajeP=error');
+    header('Location: ../trabajadores.php?mensajeP=error');
     exit();
 }
 

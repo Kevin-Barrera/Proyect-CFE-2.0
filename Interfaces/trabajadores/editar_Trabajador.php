@@ -1,14 +1,14 @@
-<?php require_once './header.php'; ?>
+<?php require_once '../header.php'; ?>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Css/styles-trab.css">
+    <link rel="stylesheet" href="../../Css/styles-trab.css">
     <title>Editar Trabajador</title>
 </head>
 <?php
 if (!isset($_GET['idTrabajador'])) {
-    header('Location: ./trabajadores.php?mensajeP=error&idTrabajador=14');
+    header('Location: ../trabajadores.php?mensajeP=error');
     exit();
 }
 $conexion = conectarBD();
@@ -46,7 +46,7 @@ function conectarBD()
     <div class="container mt-5">
 
         <h1>Editar</h1>
-        <form class="contact-form" method="POST" action="editar_ProcesoTrab.php">
+        <form class="contact-form" method="POST" action="./editar_ProcesoTrab.php">
             <input type="hidden" name="id_trab" value="<?php echo $idTrabajador; ?>">
 
             <div>
@@ -83,4 +83,4 @@ function conectarBD()
     </div>
 
 </body>
-<?php require_once './footer.php'; ?>
+<?php require_once '../footer.php'; ?>
