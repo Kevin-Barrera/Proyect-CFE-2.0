@@ -58,8 +58,8 @@ if ($num_rows > 0) {
         $html .= '<td>' . $row['telefono'] . '</td>';
         $html .= '<td>' . $row['puesto'] . '</td>';
         $html.= '<td>' . $row['usuario'] . '</td>';
-        $html .= '<td><a class="btn btn-danger" href="../trabajadores/eliminarTrabajador.php?id=' . $row['idTrabajador'] . '" onclick="return confirm(\'¿Estás seguro de eliminar este trabajador?\')">Eliminar</a>
-        <a class="btn btn-primary" href="../trabajadores/editar_Trabajador.php?id=' . $row['idTrabajador'] . '">Modificar</a>
+        $html .= '<td><a class="btn btn-danger" href="./trabajadores/eliminarTrabajador.php?idTrabajador=' . $row['idTrabajador'] . '" onclick="return confirm(\'¿Estás seguro de eliminar este trabajador?\')">Eliminar</a>
+        <a class="btn btn-primary" href="./editar_Trabajador.php?idTrabajador=' . $row['idTrabajador'] . '">Modificar</a>
         </td>';
         $html .= '</tr>';
         
