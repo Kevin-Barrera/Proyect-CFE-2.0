@@ -24,6 +24,9 @@ if (isset($_FILES['imagen'])) {
         $idTrabajador = $_GET['idTrabajador'];
         $sql_update = "UPDATE trabajador SET imagen_perfil = '$ruta_destino' WHERE idTrabajador = $idTrabajador";
         $conexion->query($sql_update);
+        // Redirige a la página deseada
+        header("Location: http://localhost/Proyect-CFE-2.0/Interfaces/editarUsuario.php?idTrabajador=" . $idTrabajador);
+        exit(); // Asegura que no se ejecuten más instrucciones después de la redirección
     }
 }
 

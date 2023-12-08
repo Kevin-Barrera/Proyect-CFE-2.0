@@ -15,8 +15,8 @@ $puesto = $_POST["puesto"];
 $usuario = $_POST["usuario"];
 $contra = $_POST["contra"];
 
-$sentencia = $conexion->prepare("INSERT INTO trabajador(nombreTrab,apellidoTrab,telefono,puesto,usuario,contra) VALUES (?,?,?,?,?,?);");
-$resultado = $sentencia->execute([$nombreTrab, $apellidoTrab, $telefono, $puesto,$usuario,$contra]);
+$sentencia = $conexion->prepare("INSERT INTO trabajador(nombreTrab, apellidoTrab, telefono, puesto, usuario, contra, imagen_perfil) VALUES (?, ?, ?, ?, ?, ?, ?);");
+$resultado = $sentencia->execute([$nombreTrab, $apellidoTrab, $telefono, $puesto, $usuario, $contra, "login/img2/avatar.svg"]);
 
 if ($resultado == TRUE) {
     header('Location: ./trabajadores.php?mensajeP=trabajadorregistrado&idTrabajador=14');

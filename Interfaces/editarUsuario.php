@@ -52,7 +52,7 @@ include "../php/bd.php";
         <div class="col-md-12">
             <h1 class="mb-4">Usuario</h1>
             <center>
-            <img src="<?php echo $imagen_perfil; ?>" alt="Perfil" style="width: 50px; height: 50px; border-radius: 50%;">
+            <img src="<?php echo $imagen_perfil; ?>" alt="Perfil" style="width: 110px; height: 110px; border-radius: 50%;">
             </center>
 
             <form action="procesar_imagen.php?idTrabajador=<?php echo $idTrabajador; ?>" method="post" enctype="multipart/form-data">
