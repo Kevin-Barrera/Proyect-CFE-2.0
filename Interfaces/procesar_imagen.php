@@ -10,7 +10,7 @@ if ($conexion->connect_error) {
     die("Conexión fallida: " . $conexion->connect_error);
 }
 
-if (isset($_FILES['imagen'])) {
+if (isset($_FILES['imagen']) && $_FILES['imagen']['size'] > 0) {
     $imagen_nombre = $_FILES['imagen']['name'];
     $imagen_temporal = $_FILES['imagen']['tmp_name'];
 
@@ -28,6 +28,11 @@ if (isset($_FILES['imagen'])) {
         header("Location: http://localhost/Proyect-CFE-2.0/Interfaces/editarUsuario.php?idTrabajador=" . $idTrabajador);
         exit(); // Asegura que no se ejecuten más instrucciones después de la redirección
     }
+} else {
+    $idTrabajador = $_GET['idTrabajador'];
+    // Si no se proporcionó una imagen, redirige a la página deseada
+    header("Location: http://localhost/Proyect-CFE-2.0/Interfaces/editarUsuario.php?idTrabajador=" . $idTrabajador);
+    exit(); // Asegura que no se ejecuten más instrucciones después de la redirección
 }
 
 $conexion->close();
