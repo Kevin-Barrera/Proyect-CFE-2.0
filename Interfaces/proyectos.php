@@ -74,7 +74,14 @@ if ($resultado->num_rows > 0) {
             echo "<td><a href='./detalle_proyecto.php?idProyecto=" . $fila["idProyecto"] . "&tipo=2'>" . $fila["rutaArc2"] . "</a></td>";
         }
 
+            // Verificar el rol del usuario antes de mostrar el botón "Eliminar"
+            $puesto = $trabajador['puesto'];
+    if ($puesto == 'Jefe_Obra') {
         echo "<td style='text-align: center;'>" . "<button class='btn btn-danger' onclick='eliminarProyecto(" . $fila["idProyecto"] . ")'>Eliminar</button>" . "</td>";
+    } else {
+        echo "<td></td>"; // No mostrar botón si el rol no es "Jefe_Obra"
+    }
+
         echo "</tr>";
     }
 

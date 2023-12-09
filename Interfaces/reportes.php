@@ -46,7 +46,15 @@ $conexion->close();
                             <?php if (!empty($proyecto["rutaArc1"])) { ?>
                                 <?php echo $proyecto["rutaArc1"]; ?>
                                 <br>
-                                <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo1']; ?>', 1)"><i class="fas fa-trash-alt"></i></button>
+                                <?php
+                                $puesto = $trabajador['puesto'];
+                                if ($puesto == 'Jefe_Obra') { 
+                                    ?>
+                                    <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo1']; ?>', 1)"><i class="fas fa-trash-alt"></i></button>
+                                <?php
+                                } else { 
+                                }
+                                ?>
                                 <a href="../php/descargar.php?idArchivo=<?php echo $proyecto['idArchivo1']; ?>" class="btn btn-primary"><i class="fas fa-download"></i></a>
                             <?php } ?>
                         </td>
@@ -54,7 +62,15 @@ $conexion->close();
                             <?php if (!empty($proyecto["rutaArc2"])) { ?>
                                 <?php echo $proyecto["rutaArc2"]; ?>
                                 <br>
-                                <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo2']; ?>', 2)"><i class="fas fa-trash-alt"></i></button>
+                                <?php
+                                $puesto = $trabajador['puesto'];
+                                if ($puesto == 'Jefe_Obra') { 
+                                    ?>
+                                    <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo2']; ?>', 2)"><i class="fas fa-trash-alt"></i></button>
+                                <?php
+                                } else { 
+                                }
+                                ?>
                                 <a href="../php/descargar.php?idArchivo=<?php echo $proyecto['idArchivo2']; ?>" class="btn btn-primary"><i class="fas fa-download"></i></a>
                             <?php } ?>
                         </td>
