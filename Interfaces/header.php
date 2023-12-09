@@ -43,6 +43,39 @@ if (isset($_SESSION['idTrabajador'])) {
     $usuario = "ID de trabajador no especificado";
 }
 
+// Verifica si se proporciona el ID del trabajador en la URL
+if (isset($_SESSION['idTrabajador'])) {
+    $idTrabajador = $_SESSION['idTrabajador'];
+
+    // Consulta para obtener los detalles del trabajador específico
+    $sql = "SELECT idTrabajador, nombreTrab, apellidoTrab, telefono, puesto, usuario, imagen_perfil FROM trabajador WHERE idTrabajador = $idTrabajador";
+    $result = $conexion->query($sql);
+
+    if ($result->num_rows > 0) {
+        $trabajador = $result->fetch_assoc();
+        $nombre = $trabajador['nombreTrab'];
+        $apellido = $trabajador['apellidoTrab'];
+        $puesto = $trabajador['puesto'];
+        $imagen_perfil = $trabajador['imagen_perfil'];
+        
+        // Verifica si el puesto es 'Jefe_Obra'
+        if ($puesto == 'Jefe_Obra') {
+            // El usuario es un Jefe de Obra, mostrar la pestaña "Trabajadores"
+            $mostrarTrabajadores = true;
+        } else {
+            // El usuario no es un Jefe de Obra, ocultar la pestaña "Trabajadores"
+            $mostrarTrabajadores = false;
+        }
+        
+    } else {
+        // Manejar el caso donde no se encuentra el trabajador con el ID proporcionado
+        $usuario = "Trabajador no encontrado";
+    }
+} else {
+    // Manejar el caso donde no se proporciona el ID del trabajador en la URL
+    $usuario = "ID de trabajador no especificado";
+}
+
 $conexion->close();
 ?>
 
@@ -162,16 +195,18 @@ $conexion->close();
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="trabajadores.php">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-rolodex" viewBox="0 0 16 16">
-                        <path d="M8 9.05a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
-                        <path d="M1 1a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h.5a.5.5 0 0 0 .5-.5.5.5 0 0 1 1 0 .5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5.5.5 0 0 1 1 0 .5.5 0 0 0 .5.5h.5a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H6.707L6 1.293A1 1 0 0 0 5.293 1zm0 1h4.293L6 2.707A1 1 0 0 0 6.707 3H15v10h-.085a1.5 1.5 0 0 0-2.4-.63C11.885 11.223 10.554 10 8 10c-2.555 0-3.886 1.224-4.514 2.37a1.5 1.5 0 0 0-2.4.63H1z" />
-                    </svg>
-                    <span>Trabajadores</span>
-                </a>
-            </li>
-
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <?php if ($mostrarTrabajadores): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="trabajadores.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-rolodex" viewBox="0 0 16 16">
+                            <path d="M8 9.05a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
+                            <path d="M1 1a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h.5a.5.5 0 0 0 .5-.5.5.5 0 0 1 1 0 .5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5.5.5 0 0 1 1 0 .5.5 0 0 0 .5.5h.5a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H6.707L6 1.293A1 1 0 0 0 5.293 1zm0 1h4.293L6 2.707A1 1 0 0 0 6.707 3H15v10h-.085a1.5 1.5 0 0 0-2.4-.63C11.885 11.223 10.554 10 8 10c-2.555 0-3.886 1.224-4.514 2.37a1.5 1.5 0 0 0-2.4.63H1z" />
+                        </svg>
+                        <span>Trabajadores</span>
+                    </a>
+                </li>
+            <?php endif; ?>
 
             <!-- Divider -->
             <hr class="sidebar-divider">

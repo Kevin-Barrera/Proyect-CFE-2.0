@@ -3,6 +3,46 @@ require_once './header.php';
 include "../php/bd.php";
 ?>
 
+<div class="container my-5">
+        <!----- alertas----->
+        <?php
+        if (isset($_GET['mensajeP']) and $_GET['mensajeP']  == 'falta algun dato') {
+        ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> Rellena el campo.
+            </div>
+        <?php
+        }
+        ?>
+        <?php
+        if (isset($_GET['mensajeP']) and $_GET['mensajeP']  == 'contrasena cambiada') {
+        ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Constraseña cambiada: </strong> Contraseña cambiada correctamente.
+            </div>
+        <?php
+        }
+        ?>
+        <?php
+        if (isset($_GET['mensajeP']) and $_GET['mensajeP']  == 'error') {
+        ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error al actualizar!</strong> Intenta de nuevo
+            </div>
+        <?php
+        }
+        ?>
+        <?php
+        if (isset($_GET['mensajeP']) and $_GET['mensajeP']  == 'eliminado') {
+        ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Eliminada!</strong> La constraseña se elimino correctamente.
+            </div>
+        <?php
+        }
+        ?>
+        <!----- Fin alertas----->
+
 <style>
         /* Estilos para el botón */
         button {
@@ -132,9 +172,31 @@ include "../php/bd.php";
             </div>
         </div>
     </div>
-    <center><a href="inicio.php" class="btn cerrar-sesion-btn">Cerrar Sesión</a></center>
+
+    <style>
+  .cambiar-contrasena-btn {
+    background-color: #004080; /* Azul fuerte */
+    color: white; /* Letras blancas */
+    padding: 10px 20px; /* Ajusta el padding según tus necesidades */
+    text-decoration: none; /* Quita la subrayado del enlace */
+    border: none; /* Sin bordes */
+    cursor: pointer;
+    font-size: 16px; /* Ajusta el tamaño de la fuente según tus necesidades */
+    transition: background-color 0.3s; /* Agrega transición para el efecto hover */
+  }
+
+  .cambiar-contrasena-btn:hover {
+    background-color: #005599; /* Cambia el color al hacer hover */
+  }
+</style>
+
+    <center>
+        <a href="editar_Contraseña.php?idTrabajador=<?php echo $idTrabajador;?>" class="btn cambiar-contrasena-btn">Cambiar Contraseña</a>
+    </center>
+
+    <center>
+        <a href="inicio.php" class="btn cerrar-sesion-btn">Cerrar Sesión</a>
+    </center>
 </div>
-
-
 
 <?php require_once './footer.php'; ?>
