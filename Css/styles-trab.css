@@ -29,7 +29,6 @@
     border: 1px solid #ccc;
     border-radius: 4px;
 }
-/* ... tus estilos anteriores ... */
 .contact-form .password-container {
     width: 100%;
 }
@@ -41,9 +40,6 @@
     border: 1px solid #ccc;
     border-radius: 4px;
 }
-/* ... tus estilos anteriores ... */
-
-
 
 .contact-form textarea {
     resize: vertical;
@@ -67,4 +63,3 @@
 .contact-form button.btn-full-width:hover {
     background-color: #0056b3;
 }
-
