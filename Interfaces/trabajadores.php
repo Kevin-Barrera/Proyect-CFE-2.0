@@ -32,6 +32,7 @@
         }
     });
 </script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var alerts = document.querySelectorAll('.alert');

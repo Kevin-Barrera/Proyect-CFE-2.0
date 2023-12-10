@@ -1,92 +1,144 @@
 <?php require_once './header.php'; ?>
 
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "cfe";
-
-$conexion = new mysqli($servername, $username, $password, $database);
-
-if ($conexion->connect_error) {
-    die("Conexión fallida: " . $conexion->connect_error);
-}
-
-$sql = "SELECT idProyecto, nomProyecto, idArchivo1, rutaArc1, idArchivo2, rutaArc2 FROM proyecto";
-$result = $conexion->query($sql);
-
-$proyectos = array();
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $proyectos[] = $row;
-    }
-}
-
-$conexion->close();
-?>
+<?php require_once '../php/conexion.php' ?>
 
 <div class="container my-5">
     <h1>Reportes registrados</h1>
-    <div class="table-responsive">
-        <table id="tabla" class="table table-striped table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th>ID del Proyecto</th>
-                    <th>Nombre del Proyecto</th>
-                    <th>Nombre del Reporte Inicial</th>
-                    <th>Nombre del Reporte Final</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($proyectos as $proyecto) { ?>
-                    <tr>
-                        <td><?php echo $proyecto["idProyecto"]; ?></td>
-                        <td><?php echo $proyecto["nomProyecto"]; ?></td>
-                        <td>
-                            <?php if (!empty($proyecto["rutaArc1"])) { ?>
-                                <?php echo $proyecto["rutaArc1"]; ?>
-                                <br>
-                                <?php
-                                $puesto = $trabajador['puesto'];
-                                if ($puesto == 'Jefe_Obra') { 
-                                    ?>
-                                    <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo1']; ?>', 1)"><i class="fas fa-trash-alt"></i></button>
-                                <?php
-                                } else { 
-                                }
-                                ?>
-                                <a href="../php/descargar.php?idArchivo=<?php echo $proyecto['idArchivo1']; ?>" class="btn btn-primary"><i class="fas fa-download"></i></a>
-                            <?php } ?>
-                        </td>
-                        <td>
-                            <?php if (!empty($proyecto["rutaArc2"])) { ?>
-                                <?php echo $proyecto["rutaArc2"]; ?>
-                                <br>
-                                <?php
-                                $puesto = $trabajador['puesto'];
-                                if ($puesto == 'Jefe_Obra') { 
-                                    ?>
-                                    <button class="btn btn-danger" onclick="confirmarEliminar('<?php echo $proyecto['idArchivo2']; ?>', 2)"><i class="fas fa-trash-alt"></i></button>
-                                <?php
-                                } else { 
-                                }
-                                ?>
-                                <a href="../php/descargar.php?idArchivo=<?php echo $proyecto['idArchivo2']; ?>" class="btn btn-primary"><i class="fas fa-download"></i></a>
-                            <?php } ?>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+
+    <div class="container py-4 text-center">
+        <div class="row g-4">
+            <div class="col-auto">
+                <label for="num_registros" class="col-form-label">Mostrar:</label>
+            </div>
+            <div class="col-auto">
+                <select name="num_registros" id="num_registros" class="form-select" style="width: 80px;  height: 35px; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <label for="num_registros" class="col-form-label">registros </label>
+            </div>
+
+            <div class="col-4"></div>
+
+            <div class="col-auto">
+                <label for="campo" class="col-form-label">Buscar:</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" name="campo" id="campo" class="form-control" style="width: 100%;  height: 35px;  padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+        </div>
+
+        <div class="row py-4">
+            <div class="col">
+                <table id="tabla" class="table table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <th class="sort asc">ID del Proyecto</th>
+                        <th class="sort asc">Nombre del Proyecto</th>
+                        <th class="sort asc">Nombre del Reporte Inicial</th>
+                        <th class="sort asc">Nombre del Reporte Final</th>
+                    </thead>
+                    <!-- El id del cuerpo de la tabla. -->
+                    <tbody id="content">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label id="lbl-total"></label>
+            </div>
+
+            <div class="col-6" id="nav-paginacion"></div>
+            <input type="hidden" id="pagina" value="1">
+            <input type="hidden" id="orderCol" value="0">
+            <input type="hidden" id="orderType" value="asc">
+        </div>
+
     </div>
+
+    <script>
+        getData()
+        document.getElementById("campo").addEventListener("keyup", function() {
+            getData()
+        }, false)
+        document.getElementById("num_registros").addEventListener("change", function() {
+            getData()
+        }, false)
+        /* Peticion AJAX */
+        function getData() {
+            let input = document.getElementById("campo").value
+            let num_registros = document.getElementById("num_registros").value
+            let content = document.getElementById("content")
+            let pagina = document.getElementById("pagina").value
+            let orderCol = document.getElementById("orderCol").value
+            let orderType = document.getElementById("orderType").value
+
+            if (pagina == null) {
+                pagina = 1
+            }
+
+            let url = "./loadRepo.php"
+            let formaData = new FormData()
+            formaData.append('campo', input)
+            formaData.append('registros', num_registros)
+            formaData.append('pagina', pagina)
+            formaData.append('orderCol', orderCol)
+            formaData.append('orderType', orderType)
+
+            fetch(url, {
+                    method: "POST",
+                    body: formaData
+                }).then(response => response.json())
+                .then(data => {
+                    content.innerHTML = data.data
+                    document.getElementById("lbl-total").innerHTML ='Mostrando ' +data.totalRegistros +
+                    ' de '+ data.totalRegistros + ' registros'
+                    document.getElementById("nav-paginacion").innerHTML = data.paginacion
+                }).catch(err => console.log(err))
+        }
+
+        function nextPage(pagina){
+            document.getElementById('pagina').value = pagina
+            getData()
+        }
+
+        let columns = document.getElementsByClassName("sort")
+        let tamanio = columns.length
+        for(let i = 0; i < tamanio; i++){
+            columns[i].addEventListener("click", ordenar)
+        }
+
+        function ordenar(e){
+            let elemento = e.target
+            document.getElementById('orderCol').value = elemento.cellIndex
+
+            if(elemento.classList.contains("asc")){
+                document.getElementById("orderType").value = "asc"
+                elemento.classList.remove("asc")
+                elemento.classList.add("desc")
+            } else {
+                document.getElementById("orderType").value = "desc"
+                elemento.classList.remove("desc")
+                elemento.classList.add("asc")
+            }
+
+            getData()
+        }
+    </script>
+
 </div>
 
 <script>
-function confirmarEliminar(idArchivo, tipo) {
-    if (confirm("¿Seguro que quieres eliminar este archivo?")) {
-        window.location.href = `../php/eliminar.php?idArchivo=${idArchivo}&tipo=${tipo}`;
+    function confirmarEliminar(idArchivo, tipo) {
+        if (confirm("¿Seguro que quieres eliminar este archivo?")) {
+            window.location.href = `../php/eliminar.php?idArchivo=${idArchivo}&tipo=${tipo}`;
+        }
     }
-}
 </script>
+<!-- Bootstrap core JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 <?php require_once './footer.php'; ?>
