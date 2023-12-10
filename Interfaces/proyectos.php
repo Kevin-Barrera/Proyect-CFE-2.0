@@ -1,5 +1,4 @@
 <?php require_once './header.php'; ?>
-
 <?php
 // Conexión a la base de datos (reemplaza con tus propios datos)
 $servername = "localhost";
@@ -33,65 +32,139 @@ if (isset($_GET['eliminar_proyecto'])) {
     // Cerrar la consulta de eliminación
     $stmt_eliminar->close();
 }
+?>
 
+<div class="container my-5">
+    <h1>Proyectos registrados</h1>
 
-// Consulta SQL para seleccionar todos los proyectos
-$sql = "SELECT * FROM proyecto";
-$resultado = $conexion->query($sql);
-echo '<div id="carga" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); text-align: center; padding-top: 20%;">
-                <p>Cargando...</p></div>';
-echo "<div class='container my-5'><div class='table-responsive'>";
-echo "<h1>Proyectos registrados</h1>";
+    <div class="container py-4 text-center">
+        <div class="row g-4">
+            <div class="col-auto">
+                <label for="num_registros" class="col-form-label">Mostrar:</label>
+            </div>
+            <div class="col-auto">
+                <select name="num_registros" id="num_registros" class="form-select" style="width: 80px;  height: 35px; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <label for="num_registros" class="col-form-label">registros </label>
+            </div>
 
-// Comprobar si se encontraron resultados
-if ($resultado->num_rows > 0) {
-    echo "<table border='1' class='table table-striped table-bordered'>";
-    echo "<thead class='thead-dark' style='text-align: center;'>
-            <tr>
-                <th style='width: 10px;'>ID</th>
-                <th style='width: 120px;'>Nombre del Proyecto</th>
-                <th style='width: 180px;'>Descripción</th>
-                <th style='width: 150px;'>Nombre del Reporte inicial</th>
-                <th style='width: 150px;'>Nombre del Reporte Final</th>
-                <th style='width: 80px;'>Acciones</th>
-            </tr>
-        </thead>";
+            <div class="col-4"></div>
 
-    while ($fila = $resultado->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>" . $fila["idProyecto"] . "</td>";
-        echo "<td>" . $fila["nomProyecto"] . "</td>";
-        echo "<td>" . $fila["descProyecto"] . "</td>";
-        echo "<td><a href='./detalle_proyecto.php?idProyecto=" . $fila["idProyecto"] . "&tipo=1'>" . $fila["rutaArc1"] . "</a></td>";
+            <div class="col-auto">
+                <label for="campo" class="col-form-label">Buscar:</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" name="campo" id="campo" class="form-control" style="width: 100%;  height: 35px;  padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+        </div>
 
-        // Mostrar el botón "Generar" solo si no hay valor en idArchivo1
-        if (empty($fila["rutaArc1"]) && empty($fila["rutaArc2"])) {
-            echo "<td></td>";
-        } else if (empty($fila["rutaArc2"])) {
-            echo "<td style='text-align: center;'>" . "<button class='btn btn-primary' onclick='generarReporte(" . $fila["idProyecto"] . ")'>Generar</button>" . "</td>";
-        } else {
-            // Mostrar el valor de rutaArc2 en caso contrario
-            echo "<td><a href='./detalle_proyecto.php?idProyecto=" . $fila["idProyecto"] . "&tipo=2'>" . $fila["rutaArc2"] . "</a></td>";
+        <div class="row py-4">
+            <div class="col">
+                <table id="tabla" class="table table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <th class="sort asc">ID</th>
+                        <th class="sort asc">Nombre del Proyecto</th>
+                        <th class="sort asc">Descripción</th>
+                        <th class="sort asc">Nombre del Reporte inicial</th>
+                        <th class="sort asc">Nombre del Reporte Final</th>
+                        <th>Opciones</th>
+                    </thead>
+                    <!-- El id del cuerpo de la tabla. -->
+                    <tbody id="content">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label id="lbl-total"></label>
+            </div>
+
+            <div class="col-6" id="nav-paginacion"></div>
+            <input type="hidden" id="pagina" value="1">
+            <input type="hidden" id="orderCol" value="0">
+            <input type="hidden" id="orderType" value="asc">
+        </div>
+
+    </div>
+
+    <script>
+        getData()
+        document.getElementById("campo").addEventListener("keyup", function() {
+            getData()
+        }, false)
+        document.getElementById("num_registros").addEventListener("change", function() {
+            getData()
+        }, false)
+        /* Peticion AJAX */
+        function getData() {
+            let input = document.getElementById("campo").value
+            let num_registros = document.getElementById("num_registros").value
+            let content = document.getElementById("content")
+            let pagina = document.getElementById("pagina").value
+            let orderCol = document.getElementById("orderCol").value
+            let orderType = document.getElementById("orderType").value
+
+            if (pagina == null) {
+                pagina = 1
+            }
+
+            let url = "./loadProy.php"
+            let formaData = new FormData()
+            formaData.append('campo', input)
+            formaData.append('registros', num_registros)
+            formaData.append('pagina', pagina)
+            formaData.append('orderCol', orderCol)
+            formaData.append('orderType', orderType)
+
+            fetch(url, {
+                    method: "POST",
+                    body: formaData
+                }).then(response => response.json())
+                .then(data => {
+                    content.innerHTML = data.data
+                    document.getElementById("lbl-total").innerHTML ='Mostrando ' +data.totalRegistros +
+                    ' de '+ data.totalRegistros + ' registros'
+                    document.getElementById("nav-paginacion").innerHTML = data.paginacion
+                }).catch(err => console.log(err))
         }
 
-            // Verificar el rol del usuario antes de mostrar el botón "Eliminar"
-            $puesto = $trabajador['puesto'];
-    if ($puesto == 'Jefe_Obra') {
-        echo "<td style='text-align: center;'>" . "<button class='btn btn-danger' onclick='eliminarProyecto(" . $fila["idProyecto"] . ")'>Eliminar</button>" . "</td>";
-    } else {
-        echo "<td></td>"; // No mostrar botón si el rol no es "Jefe_Obra"
-    }
+        function nextPage(pagina){
+            document.getElementById('pagina').value = pagina
+            getData()
+        }
 
-        echo "</tr>";
-    }
+        let columns = document.getElementsByClassName("sort")
+        let tamanio = columns.length
+        for(let i = 0; i < tamanio; i++){
+            columns[i].addEventListener("click", ordenar)
+        }
 
-    echo "</table>";
-} else {
-    echo "No se encontraron proyectos en la base de datos.";
-}
+        function ordenar(e){
+            let elemento = e.target
+            document.getElementById('orderCol').value = elemento.cellIndex
 
-echo "</div></div>";
-?>
+            if(elemento.classList.contains("asc")){
+                document.getElementById("orderType").value = "asc"
+                elemento.classList.remove("asc")
+                elemento.classList.add("desc")
+            } else {
+                document.getElementById("orderType").value = "desc"
+                elemento.classList.remove("desc")
+                elemento.classList.add("asc")
+            }
+
+            getData()
+        }
+    </script>
+
+</div>
+
 
 <script>
     function eliminarProyecto(idProyecto) {
@@ -136,5 +209,7 @@ echo "</div></div>";
         xhr.send();
     }
 </script>
+<!-- Bootstrap core JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 <?php require_once './footer.php'; ?>
