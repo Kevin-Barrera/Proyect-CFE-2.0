@@ -56,7 +56,7 @@ require_once './header.php';
         } else if ($tipo == 2) {
             echo "<div class='d-flex' style='justify-content: space-between;'>";
             echo "<p><strong>Detalles del Reporte Inicial</strong></p>";
-            echo "<button class='btn btn-success mr-4 mb-3' onclick='guardarCambios($tipo)'>Guardar Cambios</button>";
+            // echo "<button class='btn btn-success mr-4 mb-3' onclick='guardarCambios($tipo)'>Guardar Cambios</button>";
             echo "</div>";
             $archivoXlsx = "../Archivos/" . $proyecto["idArchivo2"] . ".xlsx";
             // echo '<p>' . $archivoXlsx . '</p>';
@@ -125,7 +125,7 @@ require_once './header.php';
             if (xhr.status === 200) {
                 ocultarCarga();
                 alert("Cambios guardados con éxito en el archivo y la base de datos.");
-                // location.reload(true);
+                location.reload(true);
             } else {
                 alert("Error al guardar cambios en el archivo o la base de datos.");
             }

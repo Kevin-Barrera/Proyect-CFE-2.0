@@ -128,30 +128,6 @@ function aplicarCambios($worksheet, $celdas, $celdasCombinadas)
 
             if (!in_array($cellAddress, $celdasCombinadasProcesadas)) {
                 $worksheet->setCellValue($cellAddress, $valor);
-                echo "Columna: ";
-                if (isset($columnaIndex)) {
-                    echo $columnaIndex;
-                } else {
-                    echo "No definida";
-                }
-            
-                echo ", fila: ";
-            
-                if (isset($filaIndex)) {
-                    echo $filaIndex;
-                } else {
-                    echo "No definida";
-                }
-            
-                echo ", valor: ";
-            
-                if (isset($valor)) {
-                    echo $valor;
-                } else {
-                    echo "No definido";
-                }
-            
-                echo "<br>";
             }
             
         }
@@ -204,7 +180,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
 
     try {
-        $writer->save('../Archivos/prueba.xlsx');
+        $writer->save($rutaArchivo);
         echo "Cambios aplicados y archivo guardado con éxito.";
     } catch (\PhpOffice\PhpSpreadsheet\Writer\Exception $e) {
         echo "Error al guardar el archivo: " . $e->getMessage();

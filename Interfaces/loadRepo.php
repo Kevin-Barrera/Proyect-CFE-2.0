@@ -124,7 +124,7 @@ if ($num_rows > 0) {
             $output['data'] .= '<td>' . $row['rutaArc1'];
 
             if (!empty($trabajador) && $trabajador['puesto'] == 'Jefe_Obra') {
-                $output['data'] .= '<br><button class="btn btn-danger" onclick="confirmarEliminar(\'' . $row['idArchivo1'] . '\', 1)"><i class="fas fa-trash-alt"></i></button>';
+                $output['data'] .= '<br><button class="btn btn-danger" style="margin-right: 10px;" onclick="confirmarEliminar(\'' . $row['idArchivo1'] . '\', 1)"><i class="fas fa-trash-alt"></i></button>';
             }
 
             $output['data'] .= '<a href="../php/descargar.php?idArchivo=' . $row['idArchivo1'] . '" class="btn btn-primary"><i class="fas fa-download"></i></a>';
@@ -137,7 +137,7 @@ if ($num_rows > 0) {
             $output['data'] .= '<td>' . $row['rutaArc2'];
 
             if (!empty($trabajador) && $trabajador['puesto']== 'Jefe_Obra') {
-                $output['data'] .= '<br><button class="btn btn-danger" onclick="confirmarEliminar(\'' . $row['idArchivo2'] . '\', 2)"><i class="fas fa-trash-alt"></i></button>';
+                $output['data'] .= '<br><button class="btn btn-danger" style="margin-right: 10px;" onclick="confirmarEliminar(\'' . $row['idArchivo2'] . '\', 2)"><i class="fas fa-trash-alt"></i></button>';
             }
 
             $output['data'] .= '<a href="../php/descargar.php?idArchivo=' . $row['idArchivo2'] . '" class="btn btn-primary"><i class="fas fa-download"></i></a>';
